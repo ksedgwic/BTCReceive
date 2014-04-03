@@ -5,10 +5,6 @@
           android:title="@string/action_settings"
           yourapp:showAsAction="never" />
 
-    <item android:id="@+id/action_view_seed"
-          android:title="@string/action_view_seed"
-          yourapp:showAsAction="never" />
-
     <item android:id="@+id/action_about"
           android:title="@string/action_about"
           yourapp:showAsAction="never" />

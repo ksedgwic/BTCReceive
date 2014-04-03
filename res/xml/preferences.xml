@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     >
 
-    <com.bonsai.wallet32.BetterListPreference
+    <com.bonsai.btcreceive.BetterListPreference
         android:key="pref_btcUnits"
         android:title="@string/pref_btc_units"
         android:dialogTitle="@string/pref_btc_units"
@@ -12,7 +12,7 @@
         android:defaultValue="@string/pref_btc_units_default"
 	/>
 
-    <com.bonsai.wallet32.BetterListPreference
+    <com.bonsai.btcreceive.BetterListPreference
         android:key="pref_fiatRateSource"
         android:title="@string/pref_fiat_rate_source"
         android:dialogTitle="@string/pref_fiat_rate_source"

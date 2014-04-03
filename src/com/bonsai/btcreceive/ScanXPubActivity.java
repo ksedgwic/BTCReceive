@@ -76,7 +76,7 @@ public class ScanXPubActivity extends ActionBarActivity {
     {
         if (resultCode != RESULT_OK || requestCode != 12347)
         {
-            String msg = mRes.getString(R.string.pair_error_scanfail);
+            String msg = mRes.getString(R.string.scan_xpub_scanfail);
             mLogger.warn(msg);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
             return;
@@ -105,7 +105,7 @@ public class ScanXPubActivity extends ActionBarActivity {
         protected void onPreExecute() {
             progressDialog = ProgressDialog.show
                 (ScanXPubActivity.this, "",
-                 mRes.getString(R.string.pair_wait_setup));
+                 mRes.getString(R.string.scan_xpub_wait_setup));
         }
 
 		protected Void doInBackground(JSONObject... args)
@@ -159,7 +159,7 @@ public class ScanXPubActivity extends ActionBarActivity {
         }
     }
 
-    public void scanPairingCode(View view) {
+    public void scanXPubCode(View view) {
         mLogger.info("scanning pairing code");
 
         // CaptureActivity

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ViewAccountActivity"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    >
+
+  <LinearLayout
+      android:orientation="vertical"
+      style="@style/OuterWidth"
+      android:layout_height="fill_parent"
+      android:gravity="center"
+      android:paddingLeft="10dp"
+      android:paddingBottom="10dp"
+      >
+
+    <LinearLayout
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	android:paddingTop="10dp"
+	>
+
+      <TextView
+    	  android:id="@+id/account_name_label"
+    	  android:layout_width="wrap_content"
+    	  android:layout_height="wrap_content"
+    	  android:text="@string/account_name_label"
+    	  android:textStyle="bold"
+	  android:textAppearance="@android:style/TextAppearance.Small"
+    	  />
+
+      <!-- Rigid Spacer -->
+      <View
+	  android:layout_width="5dp"
+	  android:layout_height="fill_parent"
+	  />
+
+      <ViewSwitcher
+    	  android:id="@+id/account_name_switcher"
+    	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  >
+	
+	<TextView
+    	    android:id="@+id/account_name_textview"
+    	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+    	    android:gravity="left"
+	    android:textAppearance="@android:style/TextAppearance.Small"
+    	    android:textStyle="bold"
+    	    />
+
+	<EditText
+    	    android:id="@+id/account_name_edittext"
+    	    android:inputType="text"
+    	    android:singleLine="true"
+    	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+    	    android:gravity="left"
+	    android:textAppearance="@android:style/TextAppearance.Small"
+    	    />
+
+      </ViewSwitcher>
+
+      <Button
+	  android:id="@+id/submit_account_name"
+	  android:text="@string/account_name_edit"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:onClick="submitAccountName"
+	  android:minHeight="0dp"
+	  android:minWidth="0dp"
+	  android:textAppearance="@android:style/TextAppearance.Small"
+	  />
+
+    </LinearLayout>    
+
+    <TextView
+    	android:id="@+id/receive_label"
+    	android:text="@string/account_receive_label"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:textStyle="bold"
+	android:layout_gravity="left"
+	android:textAppearance="@android:style/TextAppearance.Small"
+	android:paddingTop="10dp"
+    	/>
+    
+    <ScrollView
+	android:id="@+id/receive_scroll_id"
+	android:layout_width="fill_parent"
+	android:layout_height="0dp"
+	android:layout_weight="10"
+	android:fillViewport="true"
+	android:padding="5dp"
+	android:scrollbarStyle="outsideOverlay"
+	>
+
+      <TableLayout
+	  android:id="@+id/receive_table"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  />
+
+    </ScrollView>
+
+    <TextView
+    	android:id="@+id/change_label"
+    	android:text="@string/account_change_label"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:textStyle="bold"
+	android:layout_gravity="left"
+	android:textAppearance="@android:style/TextAppearance.Small"
+	android:paddingTop="10dp"
+    	/>
+    
+    <ScrollView
+	android:id="@+id/change_scroll_id"
+	android:layout_width="fill_parent"
+	android:layout_height="0dp"
+	android:layout_weight="10"
+	android:fillViewport="true"
+	android:padding="5dp"
+	android:scrollbarStyle="outsideOverlay"
+	>
+
+      <TableLayout
+	  android:id="@+id/change_table"
+	  android:layout_width="fill_parent"
+	  android:layout_height="wrap_content"
+	  />
+
+    </ScrollView>
+
+  </LinearLayout>
+
+</LinearLayout>

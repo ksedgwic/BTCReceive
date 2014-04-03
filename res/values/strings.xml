@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Wallet32</string>
+    <string name="service_name">Wallet Service</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_view_seed">View Seed</string>
+    <string name="action_about">About Wallet32</string>
+    <string name="action_export_xpub">Export Account XPUB</string>
+    <string name="title_activity_lobby">Wallet32</string>
+    <string name="lobby_starting">Wallet32 Starting &#8230;</string>
+    <string name="title_activity_create_restore">Create/Restore Wallet</string>
+    <string name="create_nowallet">No Wallet Found</string>
+    <string name="button_create">Create New Wallet</string>
+    <string name="button_restore">Restore Wallet</string>
+    <string name="button_pair">Pair with Wallet on Other Device</string>
+    <string name="title_activity_restore_wallet">Restore Wallet</string>
+    <string name="restore_seed">Enter Wallet Seed:</string>
+    <string name="restore_seed_hint">Hexadecimal Seed</string>
+    <string name="restore_mnemonic">Or Enter Wallet Mnemonic:</string>
+    <string name="restore_mnemonic_hint"><![CDATA[space separated ordered
+\nword list goes
+\nhere ...
+    ]]></string>
+    <string name="restore_numaccounts">Number of accounts to restore:</string>
+    <string name="restore_format_label"><![CDATA[
+Wallet32 has been tracking the BIP39 and BIP32 standards as they
+develop. If you are restoring a wallet that was created with Wallet32
+using an earlier format version please select the appropriate choice below:
+    ]]></string>
+    <string name="restore_format_v0_4">Version 0.4, current wallets</string>
+    <string name="restore_format_v0_3">Version 0.3, before ~30-Mar-2014</string>
+    <string name="restore_format_v0_2">Version 0.2, before ~14-Mar-2014</string>
+    <string name="restore_format_v0_1">Version 0.1, before ~19-Jan-2014</string>
+    <string name="restore_badhexvalue">Bad hex seed value</string>
+    <string name="restore_badhexlength">Bad hex seed length</string>
+    <string name="restore_bothbad">Both hex seed and mnemonic specified</string>
+    <string name="restore_noseed">Enter hex seed or mnemonic</string>
+    <string name="restore_badlength">Mnemonic word list not 12 words</string>
+    <string name="restore_badword">%1$s is not in the mnemonic word list</string>
+    <string name="restore_badchecksum">Checksum error; corrupted word list</string>
+    <string name="restore_badnumaccts">Bad number of accounts value</string>
+    <string name="title_activity_pair_wallet">Pair Wallet</string>
+    <string name="pair_directions"><![CDATA[
+Select Show Pairing Code from the other wallet\'s settings and scan it.
+    ]]></string>
+    <string name="pair_error_scanfail">Scan of pairing code failed</string>
+    <string name="button_scan_pair">Scan Pairing Code</string>
+    <string name="pair_wait_setup">Setting up Paired Wallet</string>
+    <string name="title_activity_passcode">Enter Passcode</string>
+    <string name="passcode_create">Create Passcode</string>
+    <string name="passcode_confirm">Confirm Passcode</string>
+    <string name="passcode_enter">Enter Passcode</string>
+    <string name="passcode_current">Enter Current Passcode</string>
+    <string name="passcode_show">Show Passcode</string>
+    <string name="passcode_error_maxlen">Passcode is maximum length</string>
+    <string name="passcode_errortitle">Passcode Error</string>
+    <string name="passcode_empty">Empty passcodes are not supported</string>
+    <string name="passcode_mismatch">Passcodes didn\'t match, try again</string>
+    <string name="passcode_invalid">Passcode invalid, try again</string>
+    <string name="passcode_waittitle">Please Wait</string>
+    <string name="passcode_waitvalidate"><![CDATA[
+Your wallet is encrypted with scrypt to keep it safe;
+validating your passcode will take a few seconds.\n
+    ]]></string>
+    <string name="passcode_waitdecrypt"><![CDATA[
+Your wallet is encrypted with scrypt to keep it safe;
+decrypting it will take a few seconds.\n
+    ]]></string>
+    <string name="passcode_waitsetup"><![CDATA[
+Your wallet is encrypted with scrypt to keep it safe;
+setting it up will take a few seconds.\n
+    ]]></string>
+    <string name="passcode_waitchange"><![CDATA[
+Changing the passcode on your wallet; this can take a
+few minutes to re-encrypt each of the existing keys.\n
+    ]]></string>
+    <string name="passcode_submit">Submit</string>
+    <string name="passcode_1">1</string>
+    <string name="passcode_2">2</string>
+    <string name="passcode_3">3</string>
+    <string name="passcode_4">4</string>
+    <string name="passcode_5">5</string>
+    <string name="passcode_6">6</string>
+    <string name="passcode_7">7</string>
+    <string name="passcode_8">8</string>
+    <string name="passcode_9">9</string>
+    <string name="passcode_0">0</string>
+    <string name="passcode_del">Del</string>
+    <string name="passcode_clr">Clr</string>
+    <string name="title_activity_view_seed">Wallet Seed</string>
+    <string name="seed_directions_label">BACKUP YOUR WALLET!</string>
+    <string name="seed_directions"><![CDATA[
+\nWallet32 is a BIP-0032 Hierarchical Deterministic wallet and can
+be restored from a seed value if you lose your device.  You can
+restore the wallet from the format version and either the hex code or
+ordered list of words below.\n
+\nIt\'s critical to keep these seed values safe from prying eyes!  If
+anyone else learns your seed value they can restore your wallet
+elsewhere and take your funds! Store your seed backup in multiple
+safe places that only you have access to.\n
+\nYou can get back to this screen from the menu.
+    ]]></string>
+    <string name="seed_version_label">Format Version</string>
+    <string name="seed_hex_label">Hex Value</string>
+    <string name="seed_mnemonic_label">Ordered Word List</string>
+    <string name="seed_done">Done</string>
+    <string name="title_activity_show_xpub">Account XPUB Code</string>
+    <string name="xpub_directions"><![CDATA[
+\nYou can use this code to export the public identifiers for this account.
+    ]]></string>
+    <string name="title_activity_show_pairing">Wallet Pairing Code</string>
+    <string name="pairing_directions"><![CDATA[
+\nYou can scan this code when you setup Wallet32 on another device.\n
+\nBoth wallets will concurrently control the same funds.
+    ]]></string>
+    <string name="title_activity_rescan">Rescan Blockchain</string>
+    <string name="rescan_full">Full Rescan (EXPENSIVE!)</string>
+    <string name="rescan_epoch">Rescan from Wallet32 Epoch</string>
+    <string name="rescan_directions"><![CDATA[
+An epoch rescan starts from the date that Wallet32 first became
+available; it\'s almost always what you want.\n
+\nFull rescans are much more expensive and should only be used if
+you need to scan for transactions somehow created prior to
+using Wallet32.
+    ]]></string>
+    <string name="rescan_rescan">Rescan</string>
+    <string name="rescan_cancel">Cancel</string>
+    <string name="base_error_ok">OK</string>
+    <string name="sync_state_title">Setting Up Wallet</string>
+    <string name="sync_title">Sync Progress</string>
+    <string name="sync_percent_label">Percent Complete</string>
+    <string name="sync_blocks_left_label">Blocks Left</string>
+    <string name="sync_scan_date_label">Scan Date</string>
+    <string name="sync_scan_cmpl_label">Complete In</string>
+    <string name="sync_details_created"><![CDATA[
+Syncing with the blockchain for the first time.
+This will take a few minutes; subsequent syncs will be much faster.
+    ]]></string>
+    <string name="sync_details_restore"><![CDATA[
+Restoring the wallet by scanning the blockchain for
+pre-existing transactions.  This will take a while.
+    ]]></string>
+    <string name="sync_details_startup"><![CDATA[
+Scanning the blockchain for recent transactions.
+    ]]></string>
+    <string name="sync_details_rescan"><![CDATA[
+Performing a rescan of the blockchain; this will
+take a while.
+    ]]></string>
+    <string name="sync_details_rerescan"><![CDATA[
+New used chain addresses were discovered in the previous scan.
+Rescanning the blockchain again.  It can take a while
+to fully recover all of your address activity.
+    ]]></string>
+    <string name="sync_abort">Abort and Exit</string>
+    <string name="title_activity_main">Wallet32</string>
+    <string name="balance_header_acct">Account</string>
+    <string name="balance_header_fiat">USD</string>
+    <string name="button_send">Send Bitcoin</string>
+    <string name="button_receive">Receive Bitcoin</string>
+    <string name="button_transactions">View Transactions</string>
+    <string name="button_sweep">Sweep Private Key</string>
+    <string name="button_exit">Exit Application</string>
+    <string name="title_activity_view_account">View Account</string>
+    <string name="account_name_label">Account:</string>
+    <string name="account_name_hint">Account Name</string>
+    <string name="account_name_edit">Edit</string>
+    <string name="account_name_submit">Submit</string>
+    <string name="account_receive_label">Receiving Addresses</string>
+    <string name="account_change_label">Change Addresses</string>
+    <string name="address_header_path">Path</string>
+    <string name="address_header_addr">Address</string>
+    <string name="address_header_ntrans">T</string>
+    <string name="address_header_fiat">USD</string>
+    <string name="title_activity_send_bitcoin">Send Bitcoin</string>
+    <string name="send_from_label">Send From:</string>
+    <string name="send_header_fiat">USD</string>
+    <string name="send_to_label">Send To:</string>
+    <string name="send_to_hint">Bitcoin Address</string>
+    <string name="send_to_qr">Scan QR Code</string>
+    <string name="send_amount_label">Send Amount:</string>
+    <string name="send_use_all">Use All</string>
+    <string name="send_computing_fee">Computing Fee &#8230;</string>
+    <string name="send_set_amt_fee">Setting amount to %1$s, fee to %2$s</string>
+    <string name="amount_btc_hint">0.0000</string>
+    <string name="amount_fiat_hint">0.00</string>
+    <string name="send_fee_label">Miner\'s Fee:</string>
+    <string name="send_compute_fee">Compute Fee</string>
+    <string name="send_set_fee">Setting fee to %1$s</string>
+    <string name="fee_btc_hint">0.00000</string>
+    <string name="fee_fiat_hint">0.000</string>
+    <string name="send_bitcoin">Send Bitcoin</string>
+    <string name="send_error_nowallet">The wallet isn\'t ready</string>
+    <string name="send_error_noaccount">No account selected</string>
+    <string name="send_error_noaddr">Missing to address</string>
+    <string name="send_error_noamount">Missing amount to send</string>
+    <string name="send_error_badamount">Amount to send is malformed</string>
+    <string name="send_error_dust">Amount to send creates dust</string>
+    <string name="send_error_insufficient">Insufficient funds to send amount</string>
+    <string name="send_error_nofee">Missing fee to send</string>
+    <string name="send_error_badfee">Fee to send is malformed</string>
+    <string name="send_error_badqr">To address is not a valid bitcoin address</string>
+    <string name="send_error_wrongnw">To address is for wrong network</string>
+    <string name="send_feeadjust_title">Adjust Fee?</string>
+    <string name="send_feeadjust_large">The specified fee of %1$s is larger than the recommended fee of %2$s.</string>
+    <string name="send_feeadjust_small">The specified fee of %1$s is smaller than the recommended fee of %2$s.</string>
+    <string name="send_feeadjust_adjust">Adjust Fee</string>
+    <string name="send_feeadjust_send">Send Anyway</string>
+    <string name="send_confirm_title">Confirm Send</string>
+    <string name="send_confirm_from">Send From:</string>
+    <string name="send_confirm_to">Send To:</string>
+    <string name="send_confirm_amount">Amount</string>
+    <string name="send_confirm_fee">Miner\'s Fee</string>
+    <string name="send_confirm_total">Total</string>
+    <string name="send_confirm_send">Send</string>
+    <string name="send_confirm_cancel">Cancel</string>
+
+    <string name="title_activity_receive_bitcoin">Receive Bitcoin</string>
+    <string name="receive_to_label">Receive To:</string>
+    <string name="receive_header_fiat">USD</string>
+    <string name="receive_amount_label">Receive Amount: (optional)</string>
+    <string name="receive_error_nowallet">The wallet isn\'t ready</string>
+    <string name="receive_error_noaccount">No account selected</string>
+    <string name="receive_error_badamount">Amount to receive is malformed</string>
+    <string name="receive_bitcoin">Receive Bitcoin</string>
+
+    <string name="title_activity_sweep_key">Sweep Private Key</string>
+    <string name="sweep_key_label">Private Key or Address:</string>
+    <string name="sweep_qr">Scan QR Code</string>
+    <string name="sweep_key_hint">Private Key or Address</string>
+    <string name="sweep_balance_label">Private Key Balance:</string>
+    <string name="sweep_fee_label">Miner\'s Fee:</string>
+    <string name="sweep_acct_label">Sweep to Account:</string>
+    <string name="sweep_key">Sweep Private Key</string>
+    <string name="sweep_error_blockchain">There was a problem accessing address history at blockchain.info, try again later.</string>
+    <string name="sweep_error_parse">There was a problem parsing the key\'s history from blockchain.info</string>
+    <string name="sweep_no_unspent">This key has no unspent balance</string>
+    <string name="sweep_needprivate">You\'ll need the private key to sweep</string>
+    <string name="sweep_error_nowallet">The wallet isn\'t ready</string>
+    <string name="sweep_error_noaccount">No account selected</string>
+    <string name="sweep_error_nokey">Missing private key</string>
+    <string name="sweep_error_nooutputs">No unspent outputs for key</string>
+    <string name="sweep_error_nofee">Missing fee for sweep</string>
+    <string name="sweep_error_badfee">Sweep fee is malformed</string>
+    <string name="sweep_error_badqr">QR code is not a valid bitcoin address</string>
+    <string name="sweep_error_wrongnw">Address is for wrong network</string>
+    <string name="sweep_wait_title">Please Wait</string>
+    <string name="sweep_wait_fetching"><![CDATA[
+Fetching unspent balance for this address from blockchain.info.\n
+    ]]></string>
+
+    <string name="title_activity_view_transactions">View Transactions</string>
+    <string name="transaction_account_label">Account:</string>
+    <string name="transaction_header_date">Date</string>
+    <string name="transaction_header_fiat">USD</string>
+    <string name="transaction_header_confidence">Cnf</string>
+    <string name="title_activity_view_transaction">View Transaction</string>
+    <string name="transaction_waittitle">Please Wait</string>
+    <string name="transaction_waitprocess"><![CDATA[
+This transaction is really large; it will take a while to process.\n
+    ]]></string>
+    <string name="transaction_hash_label">Hash</string>
+    <string name="transaction_date_label">Date</string>
+    <string name="transaction_confidence_label">Confidence</string>
+    <string name="transaction_inputs_label">Inputs</string>
+    <string name="transaction_outputs_label">Outputs</string>
+    <string name="transaction_fee_label">Miner\'s Fee</string>
+    <string name="transputs_header_account">Account</string>
+    <string name="transputs_header_chain"></string>
+    <string name="transputs_header_path">Path</string>
+    <string name="transputs_header_addr">Address</string>
+    <string name="transputs_total">Total</string>
+    <string name="title_activity_view_address">View Address</string>
+    <string name="button_send_request">Send Request &#8230;</string>
+    <string name="button_send_address">Send Address &#8230;</string>
+    <string name="button_send_key">Send Private Key &#8230;</string>
+    <string name="button_blockchain">blockchain.info</string>
+    <string name="fiat_label">USD</string>
+    <string name="eq_label">=</string>
+    <string name="address_send_request_title">Send request &#8230;</string>
+    <string name="address_send_request_subject">Bitcoin Request</string>
+    <string name="address_send_address_title">Send address &#8230;</string>
+    <string name="address_send_address_subject">Bitcoin Address</string>
+    <string name="address_send_key_title">Send private key &#8230;</string>
+    <string name="address_send_key_subject">Bitcoin Key</string>
+    <string name="network_status_setup">Wallet Initializing</string>
+    <string name="network_status_wallet">Setting up Wallet</string>
+    <string name="network_status_keysadd">Setting up Addresses</string>
+    <string name="network_status_peering">Connecting to Peers</string>
+    <string name="network_status_sync">Network Syncing, %1$d%% Done</string>
+    <string name="network_status_ready">Network Ready</string>
+    <string name="network_status_shutdown">Shutting Down</string>
+    <string name="network_status_error">Network Error</string>
+    <string name="network_status_unknown">Network Status Unknown</string>
+
+    <string name="title_activity_settings">Wallet32 Settings</string>
+
+    <string name="settings_confirm_ok">OK</string>
+    <string name="settings_confirm_cancel">Cancel</string>
+
+    <string name="pref_btc_units">BTC Units</string>
+    <string name="pref_btc_units_default">MBTC</string>
+
+    <string-array name="pref_btc_units_entries">
+      <item>mBTC</item>
+      <item>BTC</item>
+    </string-array>
+
+    <string-array name="pref_btc_units_values">
+      <item>MBTC</item>
+      <item>BTC</item>
+    </string-array>
+
+    <string name="pref_fiat_rate_source">Fiat Rate Source</string>
+    <string name="pref_fiat_rate_sources_default">COINDESKUSD</string>
+
+    <string-array name="pref_fiat_rate_sources_entries">
+      <item>CoinDesk BPI USD</item>
+      <item>BitStamp USD</item>
+    </string-array>
+
+    <string-array name="pref_fiat_rate_sources_values">
+      <item>COINDESKUSD</item>
+      <item>BITSTAMPUSD</item>
+    </string-array>
+
+    <string name="pref_show_passcode">Show Passcode</string>
+    <string name="pref_show_passcode_summary">Passcode shown during entry</string>
+
+    <string name="pref_change_passcode">Change Passcode</string>
+    <string name="pref_change_passcode_summary">Choose a new passcode</string>
+
+    <string name="pref_view_seed">View Seed</string>
+    <string name="pref_view_seed_summary">View the wallet\'s seed</string>
+
+    <string name="pref_show_pairing">Show Pairing Code</string>
+    <string name="pref_show_pairing_summary">Setup another wallet to be paired with this wallet</string>
+
+    <string name="pref_add_account">Add Account</string>
+    <string name="pref_add_account_summary">Add an account to the wallet</string>
+    <string name="pref_add_account_title">Confirm Add Account</string>
+    <string name="pref_add_account_confirm">Are you sure you want to add an account?</string>
+    <string name="pref_add_account_yes">Add Account</string>
+    <string name="pref_add_account_no">Cancel</string>
+    <string name="pref_add_account_adding">Adding account, this will take a minute &#8230;</string>
+
+    <string name="pref_rescan_blockchain">Rescan Blockchain ...</string>
+    <string name="pref_rescan_summary">Rescan Blockchain</string>
+
+    <string name="pref_send_logs">Send Logs ...</string>
+    <string name="pref_send_logs_summary">Send Logs to the Developer</string>
+
+    <string name="send_logs_mail_intent_chooser">Send Logs with…</string>
+
+    <string name="pref_about">About Wallet32</string>
+
+    <string name="pref_rescan_title">Confirm Rescan</string>
+    <string name="pref_rescan_confirm">Are you sure you want to rescan?</string>
+    <string name="pref_rescan_yes">Rescan</string>
+    <string name="pref_rescan_no">Cancel</string>
+
+    <string name="wallet_service_label">Wallet32</string>
+    <string name="wallet_service_started">Wallet32 Service Started</string>
+    <string name="wallet_service_info">Touch to open wallet</string>
+    <string name="wallet_service_note_sent_title">%1$s Sent</string>
+    <string name="wallet_service_note_sent_msg">%1$s %2$s sent</string>
+    <string name="wallet_service_note_rcvd_title">%1$s Received</string>
+    <string name="wallet_service_note_rcvd_msg">%1$s %2$s received</string>
+    <string name="wallet_service_note_scnf_title">Send Confirmed</string>
+    <string name="wallet_service_note_scnf_msg">%1$s %2$s confirmed</string>
+    <string name="wallet_service_note_rcnf_title">Receive Confirmed</string>
+    <string name="wallet_service_note_rcnf_msg">%1$s %2$s confirmed</string>
+    <string name="wallet_service_note_rdead_title">Receive Dead</string>
+    <string name="wallet_service_note_rdead_msg">%1$s %2$s dead</string>
+    <string name="wallet_service_note_sdead_title">Send Dead</string>
+    <string name="wallet_service_note_sdead_msg">%1$s %2$s dead</string>
+
+    <string name="app_units_btc">BTC</string>
+    <string name="app_units_mbtc">mBTC</string>
+
+    <string name="title_activity_about">About Wallet32</string>
+    <string name="about_contents">
+Wallet32\n
+\n
+Version: 0.2.2 (30-Mar-2014)\n
+\n
+Source:  <a href="https://github.com/ksedgwic/Wallet32">https://github.com/ksedgwic/Wallet32</a>\n
+\n
+Author:  Ken Sedgwick <a href="mailto:ken@bonsai.com">&lt;ken@bonsai.com&gt;</a>\n
+\n
+Wallet32 is made possible by:\n
+\t<a href="https://code.google.com/p/bitcoinj">bitcoinj</a>\n
+\t<a href="https://github.com/schildbach/bitcoin-wallet">bitcoin-wallet</a>\n
+\t<a href="https://github.com/LivotovLabs/zxscanlib">ZXScanLib</a>\n
+\t<a href="https://blockchain.info">blockchain.info</a>\n
+\t<a href="https://www.bitstamp.net">Bitstamp</a>\n
+\n
+Powered by <a href="http://www.coindesk.com/price/">CoinDesk</a>\n
+\n
+Donate: <a href="bitcoin:14qJ7PAfKCBtcMHzQNerHwUtgt4HVSZFRL">14qJ7PAfKCBtcMHzQNerHwUtgt4HVSZFRL</a>\n
+\n
+Copyright (C) 2013-2014 Bonsai Software, Inc.\n
+All rights reserved.
+</string>
+</resources>

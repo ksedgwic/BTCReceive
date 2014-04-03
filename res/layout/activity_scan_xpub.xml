@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".PairWalletActivity"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center"
+    >
+
+  <ScrollView
+      android:id="@+id/outer_scroll_id"
+      style="@style/OuterWidth"
+      android:layout_height="fill_parent"
+      android:fillViewport="true"
+      android:padding="20dp"
+      android:clipToPadding="false"
+      android:scrollbarStyle="outsideOverlay"
+      >
+
+    <LinearLayout
+	android:orientation="vertical"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:gravity="center"
+	>
+
+      <!-- Stretchy Spacer -->
+      <View
+	  android:layout_width="fill_parent"
+	  android:layout_height="0dp"
+	  android:layout_weight="1"
+	  />
+
+      <TextView
+	  android:id="@+id/directions"
+	  android:text="@string/pair_directions"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:textAppearance="@android:style/TextAppearance.Medium"
+	  />
+
+      <!-- Stretchy Spacer -->
+      <View
+	  android:layout_width="fill_parent"
+	  android:layout_height="0dp"
+	  android:layout_weight="1"
+	  />
+
+      <Button
+	  android:id="@+id/scan"
+	  android:layout_width="180dp"
+	  android:layout_height="wrap_content"
+	  android:text="@string/button_scan_pair"
+	  android:onClick="scanPairingCode"
+	  />
+
+      <!-- Stretchy Spacer -->
+      <View
+	  android:layout_width="fill_parent"
+	  android:layout_height="0dp"
+	  android:layout_weight="8"
+	  />
+
+    </LinearLayout>
+
+  </ScrollView>
+
+</LinearLayout>

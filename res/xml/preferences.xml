@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <com.bonsai.wallet32.BetterListPreference
+        android:key="pref_btcUnits"
+        android:title="@string/pref_btc_units"
+        android:dialogTitle="@string/pref_btc_units"
+        android:entries="@array/pref_btc_units_entries"
+        android:entryValues="@array/pref_btc_units_values"
+        android:defaultValue="@string/pref_btc_units_default"
+	/>
+
+    <com.bonsai.wallet32.BetterListPreference
+        android:key="pref_fiatRateSource"
+        android:title="@string/pref_fiat_rate_source"
+        android:dialogTitle="@string/pref_fiat_rate_source"
+        android:entries="@array/pref_fiat_rate_sources_entries"
+        android:entryValues="@array/pref_fiat_rate_sources_values"
+        android:defaultValue="@string/pref_fiat_rate_sources_default"
+	/>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="pref_showPasscode"
+        android:summary="@string/pref_show_passcode_summary"
+        android:title="@string/pref_show_passcode"
+	/>
+
+    <Preference
+        android:key="pref_changePasscode"
+	android:title="@string/pref_change_passcode"
+        android:summary="@string/pref_change_passcode_summary"
+	/>
+
+    <Preference
+        android:key="pref_addAccount"
+	android:title="@string/pref_add_account"
+        android:summary="@string/pref_add_account_summary"
+	/>
+
+    <Preference
+        android:key="pref_viewSeed"
+	android:title="@string/pref_view_seed"
+        android:summary="@string/pref_view_seed_summary"
+	/>
+
+    <Preference
+        android:key="pref_showPairing"
+	android:title="@string/pref_show_pairing"
+        android:summary="@string/pref_show_pairing_summary"
+	/>
+
+    <Preference
+        android:key="pref_rescanBlockchain"
+	android:title="@string/pref_rescan_blockchain"
+        android:summary="@string/pref_rescan_summary"
+	/>
+
+    <Preference
+        android:key="pref_sendLogs"
+	android:title="@string/pref_send_logs"
+        android:summary="@string/pref_send_logs_summary"
+	/>
+
+    <Preference
+        android:key="pref_about"
+	android:title="@string/pref_about"
+	/>
+
+</PreferenceScreen>

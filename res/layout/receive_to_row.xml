@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    >
+
+  <!-- Stretchy Horizontal Spacer -->
+  <View
+      android:layout_width="0dp"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      />
+
+  <RadioButton
+      android:id="@+id/to_account"
+      android:text="Sample Account"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical|left"
+      android:textAppearance="@android:style/TextAppearance.Small"
+      />
+
+  <!-- Stretchy Horizontal Spacer -->
+  <View
+      android:layout_width="0dp"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      />
+
+  <TextView
+      android:id="@+id/row_btc"
+      android:text="0.0000"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical|right"
+      android:textAppearance="@android:style/TextAppearance.Small"
+      android:typeface="monospace"
+      />
+  
+  <!-- Stretchy Horizontal Spacer -->
+  <View
+      android:layout_width="0dp"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      />
+
+  <TextView
+      android:id="@+id/row_fiat"
+      android:text="0.00"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:gravity="center_vertical|right"
+      android:textAppearance="@android:style/TextAppearance.Small"
+      android:typeface="monospace"
+      />
+
+  <!-- Stretchy Horizontal Spacer -->
+  <View
+      android:layout_width="0dp"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      />
+
+</TableRow>

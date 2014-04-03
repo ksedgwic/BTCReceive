@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.bonsai.btcreceive"
+    android:versionCode="1"
+    android:versionName="0.1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="18" />
+
+    <uses-sdk
+        android:minSdkVersion="9"
+        android:targetSdkVersion="18" />
+
+    <!-- Base App Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- Capture Activity -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+    <application
+        android:name="com.bonsai.btcreceive.WalletApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/Theme.AppCompat.Light" >
+        <service
+            android:name="com.bonsai.btcreceive.WalletService"
+            android:icon="@drawable/ic_launcher"
+            android:label="@string/service_name" >
+        </service>
+
+        <activity
+            android:name="com.bonsai.btcreceive.LobbyActivity"
+            android:label="@string/title_activity_lobby"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+	      <action android:name="android.intent.action.VIEW" />
+	      <data android:scheme="bitcoin" />
+	      <category android:name="android.intent.category.DEFAULT" />
+	      <category android:name="android.intent.category.BROWSABLE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.MainActivity"
+            android:label="@string/app_name"
+	    android:screenOrientation="sensorPortrait"
+	    >
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.RescanActivity"
+            android:label="@string/title_activity_rescan"
+            android:parentActivityName="com.bonsai.btcreceive.RescanActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.ViewAccountActivity"
+            android:label="@string/title_activity_view_account"
+	    android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="com.bonsai.btcreceive.MainActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.SendBitcoinActivity"
+            android:label="@string/title_activity_send_bitcoin"
+	    android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="com.bonsai.btcreceive.MainActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.ReceiveBitcoinActivity"
+            android:label="@string/title_activity_receive_bitcoin"
+	    android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="com.bonsai.btcreceive.MainActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.SweepKeyActivity"
+            android:label="@string/title_activity_sweep_key"
+	    android:windowSoftInputMode="stateHidden"
+            android:parentActivityName="com.bonsai.btcreceive.MainActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.ViewTransactionsActivity"
+            android:label="@string/title_activity_view_transactions"
+            android:parentActivityName="com.bonsai.btcreceive.MainActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.ViewTransactionActivity"
+            android:label="@string/title_activity_view_transaction"
+            android:parentActivityName="com.bonsai.btcreceive.MainActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.ViewAddressActivity"
+            android:label="@string/title_activity_view_address"
+            android:parentActivityName="com.bonsai.btcreceive.MainActivity"
+	    android:screenOrientation="sensorPortrait"
+	    >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.bonsai.btcreceive.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.google.zxing.client.android.CaptureActivity"
+            android:clearTaskOnLaunch="true"
+            android:configChanges="orientation|keyboardHidden"
+            android:stateNotNeeded="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:windowSoftInputMode="stateAlwaysHidden"
+	    android:screenOrientation="sensorPortrait"
+	    >
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.ScanXPubActivity"
+            android:label="@string/title_activity_pair_wallet"
+	    android:screenOrientation="sensorPortrait"
+	    >
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.SettingsActivity"
+            android:label="@string/title_activity_settings"
+	    android:screenOrientation="sensorPortrait"
+	    >
+        </activity>
+        <activity
+            android:name="com.bonsai.btcreceive.AboutActivity"
+            android:label="@string/title_activity_about"
+	    android:screenOrientation="sensorPortrait"
+	    >
+        </activity>
+    </application>
+
+</manifest>

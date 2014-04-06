@@ -48,60 +48,34 @@ public class HDAccount {
     private NetworkParameters	mParams;
     private DeterministicKey	mAccountKey;
     private String				mAccountName;
-    private int					mAccountId;
 
     private HDChain				mReceiveChain;
     private HDChain				mChangeChain;
 
     public HDAccount(NetworkParameters params,
-                     DeterministicKey masterKey,
-                     JSONObject acctNode,
-                     boolean isPairing)
-        throws RuntimeException, JSONException {
+                     DeterministicKey accountKey,
+                     JSONObject acctNode) throws JSONException {
 
         mParams = params;
+        mAccountKey = accountKey;
 
         mAccountName = acctNode.getString("name");
-        mAccountId = acctNode.getInt("id");
 
-        int childnum = mAccountId;
+        mReceiveChain = new HDChain(mParams, mAccountKey,
+                                    acctNode.getJSONObject("receive"));
+        mChangeChain = new HDChain(mParams, mAccountKey,
+                                   acctNode.getJSONObject("change"));
 
-        mAccountKey =
-            HDKeyDerivation.deriveChildKey(masterKey, childnum);
-
-        mLogger.info("created HDAccount " + mAccountName + ": " +
-                     mAccountKey.getPath());
-
-        if (isPairing) {
-            int numReceive = acctNode.getInt("nrcv");
-            int numChange = acctNode.getInt("nchg");
-            mReceiveChain = new HDChain(mParams, mAccountKey,
-                                        true, "Receive", numReceive);
-            mChangeChain = new HDChain(mParams, mAccountKey,
-                                       false, "Change", numChange);
-        } else {
-            mReceiveChain =
-                new HDChain(mParams, mAccountKey,
-                            acctNode.getJSONObject("receive"));
-            mChangeChain =
-                new HDChain(mParams, mAccountKey,
-                            acctNode.getJSONObject("change"));
-        }
+        mLogger.info("deserialized account " + mAccountName);
     }
 
-    public JSONObject dumps(boolean isPairing) {
+    public JSONObject dumps() {
         try {
             JSONObject obj = new JSONObject();
 
             obj.put("name", mAccountName);
-            obj.put("id", mAccountId);
-            if (isPairing) {
-                obj.put("nrcv", mReceiveChain.numAddrs());
-                obj.put("nchg", mChangeChain.numAddrs());
-            } else {
-                obj.put("receive", mReceiveChain.dumps());
-                obj.put("change", mChangeChain.dumps());
-            }
+            obj.put("receive", mReceiveChain.dumps());
+            obj.put("change", mChangeChain.dumps());
 
             return obj;
         }
@@ -111,21 +85,17 @@ public class HDAccount {
     }
 
     public HDAccount(NetworkParameters params,
-                     DeterministicKey masterKey,
-                     String accountName,
-                     int acctnum) {
+                     DeterministicKey accountKey,
+                     String accountName) {
 
         mParams = params;
-        int childnum = acctnum;
-        mAccountKey = HDKeyDerivation.deriveChildKey(masterKey, childnum);
+        mAccountKey = accountKey;
         mAccountName = accountName;
-        mAccountId = acctnum;
 
-        mLogger.info("created HDAccount " + mAccountName + ": " +
-                     mAccountKey.getPath());
+        mReceiveChain = new HDChain(mParams, mAccountKey, true, "Receive");
+        mChangeChain = new HDChain(mParams, mAccountKey, false, "Change");
 
-        mReceiveChain = new HDChain(mParams, mAccountKey, true, "Receive", 0);
-        mChangeChain = new HDChain(mParams, mAccountKey, false, "Change", 0);
+        mLogger.info("created account " + mAccountName);
     }
 
     public void gatherAllKeys(KeyCrypter keyCrypter,
@@ -171,10 +141,6 @@ public class HDAccount {
 
     public void setName(String name) {
         mAccountName = name;
-    }
-
-    public int getId() {
-        return mAccountId;
     }
 
     public HDChain getReceiveChain() {

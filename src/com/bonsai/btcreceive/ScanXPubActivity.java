@@ -15,13 +15,8 @@
 
 package com.bonsai.btcreceive;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.bitcoin.core.NetworkParameters;
-import com.google.bitcoin.params.MainNetParams;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -33,6 +28,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.crypto.DeterministicKey;
+import com.google.bitcoin.params.MainNetParams;
+
 import eu.livotov.zxscan.ZXScanHelper;
 
 public class ScanXPubActivity extends ActionBarActivity {
@@ -84,21 +84,23 @@ public class ScanXPubActivity extends ActionBarActivity {
 
         String scannedCode = ZXScanHelper.getScannedCode(data);
 
-        JSONObject codeObj;
+        DeterministicKey accountKey;
         try {
-            codeObj = new JSONObject(scannedCode);
-        } catch (JSONException ex) {
-            String msg = "trouble deserializing pairing code: " + ex.toString();
+            accountKey = WalletUtil.createMasterPubKeyFromPubB58(scannedCode);
+        }
+        catch (Exception ex) {
+            String msg = "trouble deserializing xpub: " + ex.toString();
             mLogger.error(msg);
             Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+            mLogger.error("scanned: " + scannedCode);
             return;
         }
 
         // Setup the wallet in a background task.
-        new ScanXPubTask().execute(codeObj);
+        new ScanXPubTask().execute(accountKey);
     }
 
-    private class ScanXPubTask extends AsyncTask<JSONObject, Void, Void> {
+    private class ScanXPubTask extends AsyncTask<DeterministicKey, Void, Void> {
         private ProgressDialog progressDialog;
 
         @Override
@@ -108,34 +110,21 @@ public class ScanXPubActivity extends ActionBarActivity {
                  mRes.getString(R.string.scan_xpub_wait_setup));
         }
 
-		protected Void doInBackground(JSONObject... args)
+		protected Void doInBackground(DeterministicKey... args)
         {
-            final JSONObject codeObj = args[0];
+            DeterministicKey accountKey = args[0];
 
             WalletApplication wallapp =
                 (WalletApplication) getApplicationContext();
             NetworkParameters params = MainNetParams.get();
             String filePrefix = "btcreceive";
 
-/*            // Setup a wallet with the restore seed.
-            HDWallet hdwallet;
-            try {
-                hdwallet = new HDWallet(getApplicationContext(),
-                                        params,
-                                        getApplicationContext().getFilesDir(),
-                                        filePrefix,
-                                        wallapp.mKeyCrypter,
-                                        wallapp.mAesKey,
-                                        codeObj,
-                                        true);
-            } catch (JSONException ex) {
-                String msg =
-                    "trouble deserializing pairing obj: " + ex.toString();
-                mLogger.error(msg);
-                throw new RuntimeException(msg);
-            }
-            hdwallet.persist();
-*/
+            HDReceiver hdrecvr = new HDReceiver(getApplicationContext(),
+                                     params,
+                                     getApplicationContext().getFilesDir(),
+                                     filePrefix,
+                                     accountKey);
+            hdrecvr.persist();
             return null;
         }
 
@@ -143,15 +132,16 @@ public class ScanXPubActivity extends ActionBarActivity {
         protected void onPostExecute(Void result) {
             progressDialog.dismiss();
 
-
             // Spin up the WalletService.
-            Intent svcintent = new Intent(ScanXPubActivity.this, WalletService.class);
+            Intent svcintent =
+                new Intent(ScanXPubActivity.this, WalletService.class);
             Bundle bundle = new Bundle();
             bundle.putString("SyncState", "RESTORE");
             svcintent.putExtras(bundle);
             startService(svcintent);
 
-            Intent intent = new Intent(ScanXPubActivity.this, MainActivity.class);
+            Intent intent =
+                new Intent(ScanXPubActivity.this, MainActivity.class);
             startActivity(intent);
 
             // Prevent the user from coming back here.

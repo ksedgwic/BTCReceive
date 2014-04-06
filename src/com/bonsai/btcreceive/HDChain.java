@@ -98,8 +98,7 @@ public class HDChain {
     public HDChain(NetworkParameters params,
                    DeterministicKey accountKey,
                    boolean isReceive,
-                   String chainName,
-                   int numAddrs) {
+                   String chainName) {
 
         mParams = params;
         mIsReceive = isReceive;
@@ -107,8 +106,9 @@ public class HDChain {
         mChainKey = HDKeyDerivation.deriveChildKey(accountKey, chainnum);
         mChainName = chainName;
 
-        mLogger.info("created HDChain " + mChainName + ": " +
-                     mChainKey.getPath());
+        int numAddrs = DESIRED_MARGIN;
+
+        mLogger.info("created HDChain " + mChainName);
         
         mAddrs = new ArrayList<HDAddress>();
         for (int ii = 0; ii < numAddrs; ++ii)

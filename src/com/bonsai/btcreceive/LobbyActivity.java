@@ -16,7 +16,6 @@
 package com.bonsai.btcreceive;
 
 import java.io.File;
-import java.net.URI;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,9 +86,15 @@ public class LobbyActivity extends Activity {
 
                 mLogger.info("Existing wallet found");
 
-                Intent intent = new Intent(this, MainActivity.class);
+                // Spin up the WalletService.
+                Intent svcintent = new Intent(this, WalletService.class);
                 Bundle bundle = new Bundle();
-                intent.putExtras(bundle);
+                bundle.putString("SyncState", "STARTUP");
+                svcintent.putExtras(bundle);
+                startService(svcintent);
+
+                // Off to the main activity.
+                Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
 
             } else {

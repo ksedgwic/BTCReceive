@@ -93,7 +93,7 @@ public class MyWalletAppKit extends AbstractIdleService {
         this.params = checkNotNull(params);
         this.directory = checkNotNull(directory);
         this.filePrefix = checkNotNull(filePrefix);
-        this.keyCrypter = checkNotNull(keyCrypter);
+        this.keyCrypter = keyCrypter;
         this.scanTime = scanTime;
     }
 
@@ -215,7 +215,10 @@ public class MyWalletAppKit extends AbstractIdleService {
                 if (shouldReplayWallet)
                     vWallet.clearTransactions(0);
             } else {
-                vWallet = new Wallet(params, keyCrypter);
+                if (keyCrypter == null)
+                    vWallet = new Wallet(params);
+                else
+                    vWallet = new Wallet(params, keyCrypter);
                 // vWallet.addKey(new ECKey());
                 addWalletExtensions();
             }

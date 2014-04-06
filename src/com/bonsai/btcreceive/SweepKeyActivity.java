@@ -313,7 +313,7 @@ public class SweepKeyActivity extends BaseWalletActivity {
         if (mWalletService == null)
             return;
 
-        TableLayout table = (TableLayout) findViewById(R.id.to_choices);
+/*        TableLayout table = (TableLayout) findViewById(R.id.to_choices);
 
         // Clear any existing table content.
         table.removeAllViews();
@@ -334,7 +334,7 @@ public class SweepKeyActivity extends BaseWalletActivity {
                 mAccountIds.add(bal.accountId);
             }
         }
-    }
+*/    }
 
     private final TextWatcher mPrivateKeyWatcher = new TextWatcher() {
             @Override

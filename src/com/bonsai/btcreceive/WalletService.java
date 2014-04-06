@@ -56,9 +56,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 import com.google.bitcoin.core.AbstractWalletEventListener;
 import com.google.bitcoin.core.Address;
-import com.google.bitcoin.core.AddressFormatException;
 import com.google.bitcoin.core.ECKey;
-import com.google.bitcoin.core.InsufficientMoneyException;
 import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.Sha256Hash;
 import com.google.bitcoin.core.Transaction;
@@ -70,7 +68,6 @@ import com.google.bitcoin.core.TransactionOutPoint;
 import com.google.bitcoin.core.Utils;
 import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.core.Wallet.BalanceType;
-import com.google.bitcoin.core.WrongNetworkException;
 import com.google.bitcoin.crypto.KeyCrypter;
 import com.google.bitcoin.params.MainNetParams;
 import com.google.bitcoin.script.Script;
@@ -685,17 +682,13 @@ public class WalletService extends Service
         mHDReceiver.persist();
     }
 
-    public byte[] getWalletSeed() {
-        return mHDReceiver == null ? null : mHDReceiver.getWalletSeed();
-    }
-
     public void changePasscode(KeyParameter oldAesKey,
                                KeyCrypter keyCrypter,
                                KeyParameter aesKey) {
         mLogger.info("changePasscode starting");
 
         // Change the parameters on our HDReceiver.
-        mHDReceiver.setPersistCrypter(keyCrypter, aesKey);
+        // mHDReceiver.setPersistCrypter(keyCrypter, aesKey);
         mHDReceiver.persist();
 
         mLogger.info("persisted HD wallet");
@@ -877,13 +870,10 @@ public class WalletService extends Service
         return mHDReceiver.getAccount();
     }
 
-    public List<Balance> getBalances() {
+    public Balance getBalance() {
         if (mHDReceiver == null)
             return null;
-
-        List<Balance> balances = new LinkedList<Balance>();
-        mHDReceiver.getBalances(balances);
-        return balances;
+        return mHDReceiver.getBalance();
     }
 
     public Iterable<WalletTransaction> getTransactions() {
@@ -912,32 +902,6 @@ public class WalletService extends Service
         public AmountAndFee(long amt, long fee) {
             mAmount = amt;
             mFee = fee;
-        }
-    }
-
-    public void sendCoinsFromAccount(int acctnum,
-                                     String address,
-                                     long amount,
-                                     long fee) throws RuntimeException {
-        if (mHDReceiver == null)
-            return;
-
-        try {
-            Address dest = new Address(mParams, address);
-
-            mLogger.info(String
-                         .format("send coins: acct=%d, dest=%s, val=%d, fee=%d",
-                                 acctnum, address, amount, fee));
-            
-            mHDReceiver.sendAccountCoins(mKit.wallet(), acctnum, dest,
-                                       amount, fee);
-
-        } catch (WrongNetworkException ex) {
-            String msg = "Address for wrong network: " + ex.getMessage();
-            throw new RuntimeException(msg);
-        } catch (AddressFormatException ex) {
-            String msg = "Malformed bitcoin address: " + ex.getMessage();
-            throw new RuntimeException(msg);
         }
     }
 

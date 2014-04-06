@@ -16,9 +16,7 @@
 package com.bonsai.btcreceive;
 
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +30,6 @@ import com.google.bitcoin.core.Base58;
 import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.Utils;
-import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.crypto.DeterministicKey;
 import com.google.bitcoin.crypto.HDKeyDerivation;
 import com.google.bitcoin.crypto.KeyCrypter;
@@ -152,7 +149,10 @@ public class HDAddress {
                           long creationTime,
                           List<ECKey> keys) {
         mECKey.setCreationTimeSeconds(creationTime);
-        keys.add(mECKey.encrypt(keyCrypter, aesKey));
+        if (keyCrypter == null)
+            keys.add(mECKey);
+        else
+            keys.add(mECKey.encrypt(keyCrypter, aesKey));
     }
 
     public boolean isMatch(byte[] pubkey, byte[] pubkeyhash) {

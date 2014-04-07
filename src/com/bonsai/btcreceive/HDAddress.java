@@ -44,7 +44,7 @@ public class HDAddress {
 
     private NetworkParameters	mParams;
     private int					mAddrNum;
-    private DeterministicKey	mAddrKey;
+    private String				mPath;
     private byte[]				mPubBytes;
     private ECKey				mECKey;
     private byte[]				mPubKey;
@@ -63,11 +63,10 @@ public class HDAddress {
         mParams = params;
 
         mAddrNum = addrNode.getInt("addrNum");
-
-        mAddrKey = HDKeyDerivation.deriveChildKey(chainKey, mAddrNum);
+        mPath = addrNode.getString("path");
 
         // Derive ECKey.
-        byte[] prvBytes = mAddrKey.getPrivKeyBytes();
+        byte[] prvBytes = null;
         try {
             mPubBytes = Base58.decode(addrNode.getString("pubBytes"));
         } catch (AddressFormatException ex) {
@@ -91,8 +90,7 @@ public class HDAddress {
         mAvailable = addrNode.has("available") ?
             addrNode.getLong("available") : mBalance;
 
-        mLogger.info("read address " + mAddrKey.getPath() + ": " +
-                     mAddress.toString());
+        mLogger.info("read address " + mPath + ": " + mAddress.toString());
     }
 
     public JSONObject dumps() {
@@ -100,6 +98,7 @@ public class HDAddress {
             JSONObject obj = new JSONObject();
 
             obj.put("addrNum", mAddrNum);
+            obj.put("path", mPath);
             obj.put("pubBytes", Base58.encode(mPubBytes));
             obj.put("numTrans", mNumTrans);
             obj.put("balance", mBalance);
@@ -119,18 +118,20 @@ public class HDAddress {
         mParams = params;
         mAddrNum = addrnum;
 
-        mAddrKey = HDKeyDerivation.deriveChildKey(chainKey, addrnum);
+        DeterministicKey addrKey = 
+            HDKeyDerivation.deriveChildKey(chainKey, addrnum);
+        mPath = addrKey.getPath();
 
         // Derive ECKey.
-        byte[] prvBytes = mAddrKey.getPrivKeyBytes();
-        mPubBytes = mAddrKey.getPubKeyBytes(); // Expensive, save.
+        byte[] prvBytes = addrKey.getPrivKeyBytes();
+        mPubBytes = addrKey.getPubKeyBytes(); // Expensive, save.
         mECKey = new ECKey(prvBytes, mPubBytes);
 
         // Set creation time to now.
         long now = Utils.now().getTime() / 1000;
         mECKey.setCreationTimeSeconds(now);
 
-        // Derive public key, public hash and address.
+        // Derive path, public key, public hash and address.
         mPubKey = mECKey.getPubKey();
         mPubKeyHash = mECKey.getPubKeyHash();
         mAddress = mECKey.toAddress(mParams);
@@ -140,8 +141,7 @@ public class HDAddress {
         mBalance = 0;
         mAvailable = 0;
 
-        mLogger.info("created address " + mAddrKey.getPath() + ": " +
-                     mAddress.toString());
+        mLogger.info("created address " + mPath + ": " + mAddress.toString());
     }
 
     public void gatherKey(KeyCrypter keyCrypter,
@@ -179,8 +179,7 @@ public class HDAddress {
         if (avail)
             mAvailable += value;
 
-        mLogger.debug(mAddrKey.getPath() + " matched output of " +
-                      Long.toString(value));
+        mLogger.debug(mPath + " matched output of " + Long.toString(value));
     }
 
     public void applyInput(byte[] pubkey, long value) {
@@ -192,12 +191,11 @@ public class HDAddress {
         mBalance -= value;
         mAvailable -= value;
 
-        mLogger.debug(mAddrKey.getPath() + " matched input of " +
-                      Long.toString(value));
+        mLogger.debug(mPath + " matched input of " + Long.toString(value));
     }
 
     public String getPath() {
-        return mAddrKey.getPath();
+        return mPath;
     }
 
     public long getBalance() {
@@ -232,7 +230,7 @@ public class HDAddress {
 
     public void logBalance() {
         if (mNumTrans > 0) {
-            mLogger.info(mAddrKey.getPath() + " " +
+            mLogger.info(mPath + " " +
                          Integer.toString(mNumTrans) + " " +
                          Long.toString(mBalance) + " " +
                          Long.toString(mAvailable));

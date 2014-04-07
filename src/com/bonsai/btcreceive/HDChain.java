@@ -64,7 +64,7 @@ public class HDChain {
 
         mChainKey = HDKeyDerivation.deriveChildKey(accountKey, chainnum);
 
-        mLogger.info("created HDChain " + mChainName + ": " +
+        mLogger.info("deserialized HDChain " + mChainName + ": " +
                      mChainKey.getPath());
         
         mAddrs = new ArrayList<HDAddress>();

@@ -390,10 +390,11 @@ public class WalletService extends Service
             // Try to restore existing wallet.
             mHDReceiver = null;
             try {
-				mHDReceiver = HDReceiver.restore(mContext,
-											 mParams,
-				                             mContext.getFilesDir(),
-				                             mFilePrefix, mKeyCrypter, mAesKey);
+				mHDReceiver =
+                    HDReceiver.restore(mContext,
+                                       mParams,
+                                       mContext.getFilesDir(),
+                                       mFilePrefix, mKeyCrypter, mAesKey);
 			} catch (InvalidCipherTextException ex) {
                 mLogger.error("wallet restore failed: " + ex.toString());
 			} catch (IOException ex) {

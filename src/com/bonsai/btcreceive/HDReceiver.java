@@ -289,7 +289,7 @@ public class HDReceiver {
     	return mAccount.available();
     }
 
-    public long amountForAccount(WalletTransaction wtx, int acctnum) {
+    public long amountForAccount(WalletTransaction wtx) {
 
         // This routine is only called from the View Transactions
         // activity, so it is OK if it uses all balance and not

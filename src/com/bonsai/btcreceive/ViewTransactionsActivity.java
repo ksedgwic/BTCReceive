@@ -189,7 +189,7 @@ public class ViewTransactionsActivity extends BaseWalletActivity {
                 }
             });
 
-        long btcbal = mWalletService.balanceForAccount(mAccountNum);
+        long btcbal = mWalletService.balanceForAccount();
         int rowcounter = 0;
         
         for (WalletTransaction wtx : txs) {
@@ -197,7 +197,7 @@ public class ViewTransactionsActivity extends BaseWalletActivity {
             TransactionConfidence conf = tx.getConfidence();
             ConfidenceType ct = conf.getConfidenceType();
 
-            long btc = mWalletService.amountForAccount(wtx, mAccountNum);
+            long btc = mWalletService.amountForAccount(wtx);
             if (btc != 0) {
                 double fiat = mBTCFmt.fiatAtRate(btc, mFiatPerBTC);
                 double fiatbal = mBTCFmt.fiatAtRate(btcbal, mFiatPerBTC);

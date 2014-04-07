@@ -55,13 +55,8 @@ to fully recover all of your address activity.
     ]]></string>
     <string name="sync_abort">Abort and Exit</string>
     <string name="title_activity_main">BTCReceive</string>
-    <string name="balance_header_acct">Account</string>
-    <string name="balance_header_fiat">USD</string>
-    <string name="button_send">Send Bitcoin</string>
-    <string name="button_receive">Receive Bitcoin</string>
-    <string name="button_transactions">View Transactions</string>
-    <string name="button_sweep">Sweep Private Key</string>
-    <string name="button_exit">Exit Application</string>
+    <string name="tab_receive">Receive</string>
+    <string name="tab_transactions">Transactions</string>
     <string name="title_activity_view_account">View Account</string>
     <string name="account_name_label">Account:</string>
     <string name="account_name_hint">Account Name</string>

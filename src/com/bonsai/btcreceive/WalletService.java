@@ -22,8 +22,6 @@ import java.math.BigInteger;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -881,6 +879,9 @@ public class WalletService extends Service
         if (mHDReceiver == null)
             return null;
 
+        if (mState != State.READY)
+            return null;
+
         return mKit.wallet().getWalletTransactions();
     }
 
@@ -906,15 +907,15 @@ public class WalletService extends Service
         }
     }
 
-    public long amountForAccount(WalletTransaction wtx, int acctnum) {
-        return mHDReceiver.amountForAccount(wtx, acctnum);
+    public long amountForAccount(WalletTransaction wtx) {
+        return mHDReceiver.amountForAccount(wtx);
     }
 
-    public long balanceForAccount(int acctnum) {
+    public long balanceForAccount() {
         return mHDReceiver.balanceForAccount();
     }
 
-    public long availableForAccount(int acctnum) {
+    public long availableForAccount() {
         return mHDReceiver.availableForAccount();
     }
 

@@ -98,14 +98,15 @@ public class MainActivity extends BaseWalletActivity {
 				}
             };
 
-        // Add tabs, specifying the tab's text and TabListener
-        for (int i = 0; i < 2; i++) {
-            actionBar.addTab(
-                             actionBar.newTab()
-                             .setText("Tab " + (i + 1))
-                             .setTabListener(tabListener));
-        }
-        
+        // Add tabs to the view pager.
+        actionBar.addTab(actionBar.newTab()
+                         .setText(mRes.getString(R.string.tab_receive))
+                         .setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab()
+                         .setText(mRes.getString(R.string.tab_transactions))
+                         .setTabListener(tabListener));
+
+        // Listen for swiped changes to the view pager.
         mPager.setOnPageChangeListener
             (new ViewPager.SimpleOnPageChangeListener() {
                     @Override

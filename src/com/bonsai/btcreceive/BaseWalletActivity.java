@@ -207,6 +207,18 @@ public abstract class BaseWalletActivity extends ActionBarActivity {
         }
     }
 
+    public WalletService getWalletService() {
+        return mWalletService;
+    }
+
+    public static BTCFmt getBTCFmt() {
+        return mBTCFmt;
+    }
+
+    public double fiatPerBTC() {
+        return mFiatPerBTC;
+    }
+
     protected DialogFragment showErrorDialog(String msg) {
         DialogFragment df = new MyDialogFragment();
         Bundle args = new Bundle();

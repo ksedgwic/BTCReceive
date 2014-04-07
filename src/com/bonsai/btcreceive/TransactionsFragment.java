@@ -91,7 +91,7 @@ public class TransactionsFragment extends Fragment {
         mLBM.unregisterReceiver(mWalletStateChangedReceiver);
         mLBM.unregisterReceiver(mRateChangedReceiver);
 
-        mLogger.info("BaseWalletActivity paused");
+        mLogger.info("TransactionsFragment paused");
     }
 
     private BroadcastReceiver mWalletStateChangedReceiver =

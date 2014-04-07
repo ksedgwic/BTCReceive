@@ -105,6 +105,9 @@ public class MainActivity extends BaseWalletActivity {
         actionBar.addTab(actionBar.newTab()
                          .setText(mRes.getString(R.string.tab_transactions))
                          .setTabListener(tabListener));
+        actionBar.addTab(actionBar.newTab()
+                         .setText(mRes.getString(R.string.tab_account))
+                         .setTabListener(tabListener));
 
         // Listen for swiped changes to the view pager.
         mPager.setOnPageChangeListener
@@ -128,7 +131,7 @@ public class MainActivity extends BaseWalletActivity {
 
 		@Override
 		public int getCount() {
-			return 2;
+			return 3;
 		}
 
 		@Override
@@ -138,6 +141,8 @@ public class MainActivity extends BaseWalletActivity {
 				return new ReceiveFragment();
 			case 1:
 				return new TransactionsFragment();
+			case 2:
+				return new AccountFragment();
 
 			default:
 				return null;

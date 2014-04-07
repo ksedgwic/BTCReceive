@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ReceiveFragment"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+
+  <TextView
+      android:id="@+id/receive_label"
+      android:text="@string/account_receive_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textStyle="bold"
+      android:layout_gravity="left"
+      android:textAppearance="@android:style/TextAppearance.Small"
+      android:paddingTop="10dp"
+      android:paddingLeft="10dp"
+      />
+  
+  <ScrollView
+      android:id="@+id/receive_scroll_id"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="10"
+      android:fillViewport="true"
+      android:padding="5dp"
+      android:scrollbarStyle="outsideOverlay"
+      >
+
+    <TableLayout
+	android:id="@+id/receive_table"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	/>
+
+  </ScrollView>
+
+  <TextView
+      android:id="@+id/change_label"
+      android:text="@string/account_change_label"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textStyle="bold"
+      android:layout_gravity="left"
+      android:textAppearance="@android:style/TextAppearance.Small"
+      android:paddingTop="10dp"
+      android:paddingLeft="10dp"
+      />
+  
+  <ScrollView
+      android:id="@+id/change_scroll_id"
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="10"
+      android:fillViewport="true"
+      android:padding="5dp"
+      android:scrollbarStyle="outsideOverlay"
+      >
+
+    <TableLayout
+	android:id="@+id/change_table"
+	android:layout_width="fill_parent"
+	android:layout_height="wrap_content"
+	/>
+
+  </ScrollView>
+
+</LinearLayout>

@@ -9,99 +9,11 @@
     android:gravity="center"
     >
 
-  <ScrollView
-      android:id="@+id/outer_scroll_id"
-      style="@style/OuterWidth"
-      android:layout_height="fill_parent"
-      android:fillViewport="true"
-      android:padding="20dp"
-      android:clipToPadding="false"
-      android:scrollbarStyle="outsideOverlay"
-      >
-
-    <LinearLayout
-	android:orientation="vertical"
-	android:layout_width="fill_parent"
-	android:layout_height="fill_parent"
-	android:gravity="center"
-	>
-
-      <!-- Stretchy Spacer -->
-      <View
-	  android:layout_width="fill_parent"
-	  android:layout_height="0dp"
-	  android:layout_weight="1"
-	  />
-
-      <TableLayout
-	  android:id="@+id/balance_table"
-	  android:layout_width="wrap_content"
-	  android:layout_height="wrap_content"
-	  />
-      
-      <!-- Stretchy Spacer -->
-      <View
-	  android:layout_width="fill_parent"
-	  android:layout_height="0dp"
-	  android:layout_weight="4"
-	  />
-
-      <Button
-	  android:id="@+id/send"
-	  android:layout_width="180dp"
-	  android:layout_height="wrap_content"
-	  android:text="@string/button_send"
-	  android:onClick="sendBitcoin"
-	  />
-
-      <Button
-	  android:id="@+id/receive"
-	  android:layout_width="180dp"
-	  android:layout_height="wrap_content"
-	  android:text="@string/button_receive"
-	  android:onClick="receiveBitcoin"
-	  />
-
-      <Button
-	  android:id="@+id/transactions"
-	  android:layout_width="180dp"
-	  android:layout_height="wrap_content"
-	  android:text="@string/button_transactions"
-	  android:onClick="viewTransactions"
-	  />
-
-      <Button
-	  android:id="@+id/sweep"
-	  android:layout_width="180dp"
-	  android:layout_height="wrap_content"
-	  android:text="@string/button_sweep"
-	  android:onClick="sweepKey"
-	  />
-
-      <!-- Stretchy Spacer -->
-      <View
-	  android:layout_width="fill_parent"
-	  android:layout_height="0dp"
-	  android:layout_weight="1"
-	  />
-
-      <Button
-	  android:id="@+id/exit"
-	  android:layout_width="180dp"
-	  android:layout_height="wrap_content"
-	  android:text="@string/button_exit"
-	  android:onClick="exitApp"
-	  />
-
-      <!-- Stretchy Spacer -->
-      <View
-	  android:layout_width="fill_parent"
-	  android:layout_height="0dp"
-	  android:layout_weight="1"
-	  />
-
-    </LinearLayout>
-
-  </ScrollView>
+  <android.support.v4.view.ViewPager
+      xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/pager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      />
 
 </LinearLayout>

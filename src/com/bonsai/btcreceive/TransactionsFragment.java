@@ -46,7 +46,8 @@ import android.widget.TextView;
 
 public class TransactionsFragment extends Fragment {
 
-    private static Logger mLogger = LoggerFactory.getLogger(TransactionsFragment.class);
+    private static Logger mLogger =
+        LoggerFactory.getLogger(TransactionsFragment.class);
 
     protected LocalBroadcastManager mLBM;
 
@@ -181,7 +182,8 @@ public class TransactionsFragment extends Fragment {
         if (walletService == null)
             return;
 
-        TableLayout table = (TableLayout) getActivity().findViewById(R.id.transaction_table);
+        TableLayout table =
+            (TableLayout) getActivity().findViewById(R.id.transaction_table);
 
         // Clear any existing table content.
         table.removeAllViews();
@@ -223,18 +225,20 @@ public class TransactionsFragment extends Fragment {
 
             long btc = walletService.amountForAccount(wtx);
             if (btc != 0) {
-                double fiat =
-                    BaseWalletActivity.getBTCFmt().fiatAtRate(btc, ((BaseWalletActivity) getActivity()).fiatPerBTC());
-                double fiatbal =
-                    BaseWalletActivity.getBTCFmt().fiatAtRate(btcbal, ((BaseWalletActivity) getActivity()).fiatPerBTC());
+                double fiat = BaseWalletActivity.getBTCFmt().fiatAtRate
+                    (btc, ((BaseWalletActivity) getActivity()).fiatPerBTC());
+                double fiatbal = BaseWalletActivity.getBTCFmt().fiatAtRate
+                    (btcbal, ((BaseWalletActivity) getActivity()).fiatPerBTC());
 
                 String hash = tx.getHashAsString();
 
                 String datestr = dateFormater.format(tx.getUpdateTime());
                 String timestr = timeFormater.format(tx.getUpdateTime());
 
-                String btcstr = BaseWalletActivity.getBTCFmt().formatCol(btc, 0, true);
-                String btcbalstr = BaseWalletActivity.getBTCFmt().formatCol(btcbal, 0, true);
+                String btcstr = BaseWalletActivity.getBTCFmt()
+                    .formatCol(btc, 0, true);
+                String btcbalstr = BaseWalletActivity.getBTCFmt()
+                    .formatCol(btcbal, 0, true);
 
                 String fiatstr = String.format("%.02f", fiat);
                 String fiatbalstr = String.format("%.02f", fiatbal);

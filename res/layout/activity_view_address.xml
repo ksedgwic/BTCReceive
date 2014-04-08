@@ -87,14 +87,6 @@
 	  />
 
       <Button
-	  android:id="@+id/send_request"
-	  android:layout_width="180dp"
-	  android:layout_height="wrap_content"
-	  android:text="@string/button_send_request"
-	  android:onClick="sendRequest"
-	  />
-
-      <Button
 	  android:id="@+id/send_address"
 	  android:layout_width="180dp"
 	  android:layout_height="wrap_content"
@@ -105,22 +97,6 @@
       <!-- Stretchy Spacer -->
       <View
 	  android:id="@+id/opt_space1"
-	  android:layout_width="fill_parent"
-	  android:layout_height="0dp"
-	  android:layout_weight="1"
-	  />
-
-      <Button
-	  android:id="@+id/send_key"
-	  android:layout_width="180dp"
-	  android:layout_height="wrap_content"
-	  android:text="@string/button_send_key"
-	  android:onClick="sendKey"
-	  />
-
-      <!-- Stretchy Spacer -->
-      <View
-	  android:id="@+id/opt_space2"
 	  android:layout_width="fill_parent"
 	  android:layout_height="0dp"
 	  android:layout_weight="1"

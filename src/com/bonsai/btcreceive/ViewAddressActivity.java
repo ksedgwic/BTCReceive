@@ -45,7 +45,6 @@ public class ViewAddressActivity extends BaseWalletActivity {
 
     private long mAmount = 0;
 
-    private String mPrivateKey;
     private String mAddress;
 
     private String mURI;
@@ -60,7 +59,6 @@ public class ViewAddressActivity extends BaseWalletActivity {
 		setContentView(R.layout.activity_view_address);
 
         Intent intent = getIntent();
-        mPrivateKey = intent.getExtras().getString("key");
         mAddress = intent.getExtras().getString("address");
         mAmount = intent.getExtras().getLong("amount");
 
@@ -81,22 +79,6 @@ public class ViewAddressActivity extends BaseWalletActivity {
 
         TextView idtv = (TextView) findViewById(R.id.address);
         idtv.setText(mAddress);
-
-        // When this activity is called from the receive bitcoin
-        // activity we should show a simplified version; remove
-        // some actions.
-        //
-        if (mPrivateKey != null) {
-            // We are viewing an address from the account.
-            findViewById(R.id.send_request).setVisibility(View.GONE);
-        } else {
-            // We are sending a receive request.
-            findViewById(R.id.send_address).setVisibility(View.GONE);
-            findViewById(R.id.opt_space1).setVisibility(View.GONE);
-            findViewById(R.id.send_key).setVisibility(View.GONE);
-            findViewById(R.id.opt_space2).setVisibility(View.GONE);
-            findViewById(R.id.blockchain).setVisibility(View.GONE);
-        }
 
         updateAmount();
 
@@ -158,19 +140,6 @@ public class ViewAddressActivity extends BaseWalletActivity {
         return bitmap;
     }
 
-    public void sendRequest(View view) {
-        Intent intent=new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        intent.putExtra(Intent.EXTRA_SUBJECT, 
-                        mRes.getString(R.string.address_send_request_subject));
-        intent.putExtra(Intent.EXTRA_TEXT, mURI);
-        startActivity(Intent.createChooser
-                      (intent,
-                       mRes.getString(R.string.address_send_request_title)));
-        finish();
-    }
-
     public void sendAddress(View view) {
         Intent intent=new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("text/plain");
@@ -181,18 +150,6 @@ public class ViewAddressActivity extends BaseWalletActivity {
         startActivity(Intent.createChooser
                       (intent,
                        mRes.getString(R.string.address_send_address_title)));
-        finish();
-    }
-
-    public void sendKey(View view) {
-        Intent intent=new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("text/plain");
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
-        intent.putExtra(Intent.EXTRA_SUBJECT, 
-                        mRes.getString(R.string.address_send_key_subject));
-        intent.putExtra(Intent.EXTRA_TEXT, mPrivateKey);
-        startActivity(Intent.createChooser
-                      (intent, mRes.getString(R.string.address_send_key_title)));
         finish();
     }
 

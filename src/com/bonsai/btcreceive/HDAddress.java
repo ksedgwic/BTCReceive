@@ -128,8 +128,7 @@ public class HDAddress {
         mECKey = new ECKey(prvBytes, mPubBytes);
 
         // Set creation time to now.
-        long now = Utils.now().getTime() / 1000;
-        mECKey.setCreationTimeSeconds(now);
+        mECKey.setCreationTimeSeconds(EPOCH);
 
         // Derive path, public key, public hash and address.
         mPubKey = mECKey.getPubKey();

@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -146,6 +147,15 @@ public class AccountFragment extends Fragment {
         row.setTag(tableId);
         row.setId(index);
 
+        row.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    int tableId = (Integer) view.getTag();
+                    int index = view.getId();
+                    viewAddress(tableId, index);
+                }
+            }); 
+
         {
             TextView tv = (TextView) row.findViewById(R.id.row_path);
             tv.setText(path);
@@ -174,12 +184,6 @@ public class AccountFragment extends Fragment {
         table.addView(row);
     }
 
-    public void handleRowClick(View view) {
-        int tableId = (Integer) view.getTag();
-        int index = view.getId();
-        viewAddress(tableId, index);
-    }
-
     public void viewAddress(int tableId, int index) {
         HDChain chain = null;
         switch (tableId) {
@@ -199,7 +203,6 @@ public class AccountFragment extends Fragment {
         
         // Dispatch to the address viewer.
         Intent intent = new Intent(getActivity(), ViewAddressActivity.class);
-        intent.putExtra("key", addr.getPrivateKeyString());
         intent.putExtra("address", addrstr);
         startActivity(intent);
     }

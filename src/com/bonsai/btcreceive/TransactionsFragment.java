@@ -39,6 +39,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -136,6 +137,18 @@ public class TransactionsFragment extends Fragment {
             .inflate(R.layout.transaction_table_row, table, false);
 
         row.setTag(hash);
+
+        row.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Dispatch to the transaction viewer.
+                    String hash = (String) view.getTag();
+                    Intent intent = new Intent(getActivity(),
+                                               ViewTransactionActivity.class);
+                    intent.putExtra("hash", hash);
+                    startActivity(intent);
+                }
+            }); 
 
         {
             TextView tv = (TextView) row.findViewById(R.id.row_date);
@@ -271,13 +284,5 @@ public class TransactionsFragment extends Fragment {
             if (ct != ConfidenceType.DEAD)
                 btcbal -= btc;
         }
-    }
-
-    public void handleRowClick(View view) {
-        // Dispatch to the transaction viewer.
-        String hash = (String) view.getTag();
-        Intent intent = new Intent(getActivity(), ViewTransactionActivity.class);
-        intent.putExtra("hash", hash);
-        startActivity(intent);
     }
 }

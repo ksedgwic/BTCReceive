@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -142,6 +143,9 @@ public abstract class BaseWalletActivity extends ActionBarActivity {
             intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(intent);
             return true;
+        case R.id.action_exit:
+            doExit();
+            return true;
         default:
             return super.onOptionsItemSelected(item);
         }
@@ -250,4 +254,25 @@ public abstract class BaseWalletActivity extends ActionBarActivity {
 
     protected void onRateChanged() {
     }
+
+    public void doExit() {
+        mLogger.info("Application exiting");
+
+        if (mWalletService != null)
+            mWalletService.shutdown();
+
+        mLogger.info("Stopping WalletService");
+        stopService(new Intent(this, WalletService.class));
+
+        // Cancel any remaining notifications.
+        NotificationManager nm =
+            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        nm.cancelAll();
+
+        mLogger.info("Finished");
+        finish();
+        mLogger.info("Exiting");
+
+        System.exit(0);
+    }    
 }

@@ -29,7 +29,6 @@ import com.google.bitcoin.core.AddressFormatException;
 import com.google.bitcoin.core.Base58;
 import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.NetworkParameters;
-import com.google.bitcoin.core.Utils;
 import com.google.bitcoin.crypto.DeterministicKey;
 import com.google.bitcoin.crypto.HDKeyDerivation;
 import com.google.bitcoin.crypto.KeyCrypter;

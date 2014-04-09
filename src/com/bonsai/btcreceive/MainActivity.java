@@ -45,8 +45,6 @@ public class MainActivity extends BaseWalletActivity {
     private static Logger mLogger =
         LoggerFactory.getLogger(MainActivity.class);
 
-    private WalletApplication	mWalletApp;
-
     private View mSyncDialogView = null;
     private DialogFragment mSyncProgressDialog = null;
 
@@ -67,8 +65,6 @@ public class MainActivity extends BaseWalletActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
 		setContentView(R.layout.activity_main);
-
-        mWalletApp = (WalletApplication) getApplicationContext();
 
 		mAdapter = new MyAdapter(getSupportFragmentManager());
 		mPager = (ViewPager) findViewById(R.id.pager);
@@ -234,24 +230,6 @@ public class MainActivity extends BaseWalletActivity {
             return String.format("%d:%02d min", mins, secs);
         else
             return String.format("%d sec", secs);
-    }
-
-    private void doExit() {
-        mLogger.info("Application exiting");
-        if (mWalletService != null)
-            mWalletService.shutdown();
-        mLogger.info("Stopping WalletService");
-        stopService(new Intent(this, WalletService.class));
-
-        // Cancel any remaining notifications.
-        NotificationManager nm =
-            (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        nm.cancelAll();
-
-        mLogger.info("Finished");
-        finish();
-        mLogger.info("Exiting");
-        System.exit(0);
     }
 
     @SuppressLint("ValidFragment")

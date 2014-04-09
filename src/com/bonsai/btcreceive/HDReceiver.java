@@ -35,6 +35,8 @@ import org.spongycastle.crypto.params.KeyParameter;
 import android.content.Context;
 
 import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.AddressFormatException;
+import com.google.bitcoin.core.Base58;
 import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.ScriptException;
@@ -60,6 +62,8 @@ public class HDReceiver {
     private DeterministicKey	mAccountKey = null;
 
     private HDAccount			mAccount;
+
+    private ECKey				mWorkaroundKey = null;
 
     public static String persistPath(String filePrefix) {
         return filePrefix + ".hdreceive";
@@ -163,6 +167,17 @@ public class HDReceiver {
             String xpubstr = node.getString("xpub");
             mAccountKey = WalletUtil.createMasterPubKeyFromPubB58(xpubstr);
 
+            // See WORKAROUND below.
+            try {
+                byte[] privKeyBytes =
+                    Base58.decode(node.getString("workaroundPrivKey"));
+                mWorkaroundKey = new ECKey(privKeyBytes, null);
+            }
+            catch (AddressFormatException ex) {
+                // Shouldn't happen.
+                throw new RuntimeException("fail decoding workaroundPrivKey");
+            }
+
             JSONObject acctNode = node.getJSONObject("account");
             mAccount = new HDAccount(params, mAccountKey, acctNode);
 
@@ -188,6 +203,14 @@ public class HDReceiver {
         mDirectory = dir;
         mFilePrefix = prefix;
 
+        // WORKAROUND - there is a bug that watch-only addresses
+        // don't seem to properly scan historically; they use
+        // quick catchup.  Create a real key (that we ignore) as a
+        // workaround.
+        //
+        mWorkaroundKey = new ECKey();
+        mWorkaroundKey.setCreationTimeSeconds(HDAddress.EPOCH);
+
         mAccountKey = accountRootKey;
         mAccount = new HDAccount(params, mAccountKey, "Account 0");
         mLogger.info("created HDReceiver");
@@ -198,6 +221,8 @@ public class HDReceiver {
             JSONObject obj = new JSONObject();
             obj.put("xpub", mAccount.xpubstr());
             obj.put("account", mAccount.dumps());
+            obj.put("workaroundPrivKey",
+                    Base58.encode(mWorkaroundKey.getPrivKeyBytes()));
         return obj;
         }
         catch (JSONException ex) {
@@ -210,6 +235,7 @@ public class HDReceiver {
     }
     
     public void gatherAllKeys(long creationTime, List<ECKey> keys) {
+        keys.add(mWorkaroundKey);
         mAccount.gatherAllKeys(null, null, creationTime, keys);
     }
 

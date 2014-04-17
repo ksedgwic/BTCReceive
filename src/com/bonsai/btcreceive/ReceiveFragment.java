@@ -249,13 +249,17 @@ public class ReceiveFragment extends Fragment {
         final int size =
             (int) (240 * getResources().getDisplayMetrics().density);
 
+        // Load the QR bitmap.
         Bitmap bm = createBitmap(uri, size);
         if (bm != null) {
-            ImageView iv = (ImageView) getActivity().findViewById(R.id.receive_qr_view);
+            ImageView iv =
+                (ImageView) getActivity().findViewById(R.id.receive_qr_view);
             iv.setImageBitmap(bm);
         }
 
-        ImageView iv = (ImageView) getActivity().findViewById(R.id.receive_qr_view);
+        // Make the QR bitmap visible.
+        ImageView iv =
+            (ImageView) getActivity().findViewById(R.id.receive_qr_view);
         iv.setVisibility(View.VISIBLE);
     }
 

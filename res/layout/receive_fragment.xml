@@ -17,23 +17,17 @@
 
   <LinearLayout
       android:orientation="vertical"
-      android:layout_width="fill_parent"
+      android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_gravity="right|top"
+      android:gravity="right|top"
       >
 
     <LinearLayout
 	android:orientation="horizontal"
-	android:layout_width="fill_parent"
+	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:layout_gravity="center"
 	>
-
-      <View
-	  android:layout_width="0dp"
-	  android:layout_height="match_parent"
-	  android:layout_weight="1"
-	  />
 
       <EditText
 	  android:id="@+id/receive_fiat_amount"
@@ -65,16 +59,10 @@
 
     <LinearLayout
 	android:orientation="horizontal"
-	android:layout_width="fill_parent"
+	android:layout_width="wrap_content"
 	android:layout_height="wrap_content"
 	android:layout_gravity="center"
 	>
-
-      <View
-	  android:layout_width="0dp"
-	  android:layout_height="match_parent"
-	  android:layout_weight="1"
-	  />
 
       <EditText
 	  android:id="@+id/receive_btc_amount"

@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -192,101 +193,129 @@ public class TransactionsFragment extends Fragment {
         table.addView(row);
     }
 
-	private void updateTransactions() {
-        WalletService walletService =
-            ((BaseWalletActivity) getActivity()).getWalletService();
+    private class UpdateTransactionsTask extends AsyncTask<Void, Void, Void> {
+        private WalletService walletService;
+        private Iterable<WalletTransaction> txit;
 
-        if (walletService == null)
-            return;
-
-        TableLayout table =
-            (TableLayout) getActivity().findViewById(R.id.transaction_table);
-
-        // Clear any existing table content.
-        table.removeAllViews();
-
-        addTransactionHeader(table);
-
-        SimpleDateFormat dateFormater =
-            new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat timeFormater =
-            new SimpleDateFormat("kk:mm:ss");
-
-        // Read all the transactions and sort by date.
-        Iterable<WalletTransaction> txit = walletService.getTransactions();
-
-        // If we've been called before things are setup just bail.
-        if (txit == null)
-            return;
-
-        ArrayList<WalletTransaction> txs = new ArrayList<WalletTransaction>();
-        for (WalletTransaction wtx : txit)
-            txs.add(wtx);
-        // Sort in reverse time order (most recent first).
-        Collections.sort(txs, new Comparator<WalletTransaction>() {
-                public int compare(WalletTransaction wt0,
-                                   WalletTransaction wt1) {
-                    Date dt0 = wt0.getTransaction().getUpdateTime();
-                    Date dt1 = wt1.getTransaction().getUpdateTime();
-                    return -dt0.compareTo(dt1);
-                }
-            });
-
-        long btcbal = walletService.balanceForAccount();
-        int rowcounter = 0;
-        
-        for (WalletTransaction wtx : txs) {
-            Transaction tx = wtx.getTransaction();
-            TransactionConfidence conf = tx.getConfidence();
-            ConfidenceType ct = conf.getConfidenceType();
-
-            long btc = walletService.amountForAccount(wtx);
-            if (btc != 0) {
-                double fiat = BaseWalletActivity.getBTCFmt().fiatAtRate
-                    (btc, ((BaseWalletActivity) getActivity()).fiatPerBTC());
-                double fiatbal = BaseWalletActivity.getBTCFmt().fiatAtRate
-                    (btcbal, ((BaseWalletActivity) getActivity()).fiatPerBTC());
-
-                String hash = tx.getHashAsString();
-
-                String datestr = dateFormater.format(tx.getUpdateTime());
-                String timestr = timeFormater.format(tx.getUpdateTime());
-
-                String btcstr = BaseWalletActivity.getBTCFmt()
-                    .formatCol(btc, 0, true);
-                String btcbalstr = BaseWalletActivity.getBTCFmt()
-                    .formatCol(btcbal, 0, true);
-
-                String fiatstr = String.format("%.02f", fiat);
-                String fiatbalstr = String.format("%.02f", fiatbal);
-
-                String confstr;
-                switch (ct) {
-                case UNKNOWN: confstr = "U"; break;
-                case BUILDING:
-                    int depth = conf.getDepthInBlocks();
-                    confstr = depth > 100 ? "100+" : String.format("%d", depth);
-                    break;
-                case PENDING: confstr = "P"; break;
-                case DEAD: confstr = "D"; break;
-                default: confstr = "?"; break;
-                }
-
-                // This is just too noisy ...
-                // mLogger.info("tx " + hash);
-
-                boolean tintrow = rowcounter % 2 == 0;
-                ++rowcounter;
-
-                addTransactionRow(hash, table, datestr, timestr, confstr,
-                                  btcstr, btcbalstr, fiatstr, fiatbalstr,
-                                  tintrow);
-            }
-
-            // We're working backward in time ...
-            // Dead transactions should not affect the balance ...
-            if (ct != ConfidenceType.DEAD)
-                btcbal -= btc;
+        @Override
+        protected void onPreExecute() {
+            walletService =
+                ((BaseWalletActivity) getActivity()).getWalletService();
         }
+
+		protected Void doInBackground(Void... params)
+        {
+            if (walletService == null)
+                return null;
+
+            mLogger.info("UpdateTransactionsTask starting");
+            txit = walletService.getTransactions();
+            mLogger.info("UpdateTransactionsTask finished");
+			return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            if (walletService == null)
+                return;
+
+            TableLayout table = (TableLayout) getActivity()
+                .findViewById(R.id.transaction_table);
+
+            // Clear any existing table content.
+            table.removeAllViews();
+
+            addTransactionHeader(table);
+
+            SimpleDateFormat dateFormater =
+                new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat timeFormater =
+                new SimpleDateFormat("kk:mm:ss");
+
+            // Read all the transactions and sort by date.
+            Iterable<WalletTransaction> txit = walletService.getTransactions();
+
+            // If we've been called before things are setup just bail.
+            if (txit == null)
+                return;
+
+            ArrayList<WalletTransaction> txs =
+                new ArrayList<WalletTransaction>();
+            for (WalletTransaction wtx : txit)
+                txs.add(wtx);
+            // Sort in reverse time order (most recent first).
+            Collections.sort(txs, new Comparator<WalletTransaction>() {
+                    public int compare(WalletTransaction wt0,
+                                       WalletTransaction wt1) {
+                        Date dt0 = wt0.getTransaction().getUpdateTime();
+                        Date dt1 = wt1.getTransaction().getUpdateTime();
+                        return -dt0.compareTo(dt1);
+                    }
+                });
+
+            long btcbal = walletService.balanceForAccount();
+            int rowcounter = 0;
+        
+            for (WalletTransaction wtx : txs) {
+                Transaction tx = wtx.getTransaction();
+                TransactionConfidence conf = tx.getConfidence();
+                ConfidenceType ct = conf.getConfidenceType();
+
+                long btc = walletService.amountForAccount(wtx);
+                if (btc != 0) {
+                    double fiat = BaseWalletActivity.getBTCFmt().fiatAtRate
+                        (btc, ((BaseWalletActivity) getActivity())
+                         .fiatPerBTC());
+                    double fiatbal = BaseWalletActivity.getBTCFmt().fiatAtRate
+                        (btcbal, ((BaseWalletActivity) getActivity())
+                         .fiatPerBTC());
+
+                    String hash = tx.getHashAsString();
+
+                    String datestr = dateFormater.format(tx.getUpdateTime());
+                    String timestr = timeFormater.format(tx.getUpdateTime());
+
+                    String btcstr = BaseWalletActivity.getBTCFmt()
+                        .formatCol(btc, 0, true);
+                    String btcbalstr = BaseWalletActivity.getBTCFmt()
+                        .formatCol(btcbal, 0, true);
+
+                    String fiatstr = String.format("%.02f", fiat);
+                    String fiatbalstr = String.format("%.02f", fiatbal);
+
+                    String confstr;
+                    switch (ct) {
+                    case UNKNOWN: confstr = "U"; break;
+                    case BUILDING:
+                        int depth = conf.getDepthInBlocks();
+                        confstr = depth > 100 ? "100+" :
+                            String.format("%d", depth);
+                        break;
+                    case PENDING: confstr = "P"; break;
+                    case DEAD: confstr = "D"; break;
+                    default: confstr = "?"; break;
+                    }
+
+                    // This is just too noisy ...
+                    // mLogger.info("tx " + hash);
+
+                    boolean tintrow = rowcounter % 2 == 0;
+                    ++rowcounter;
+
+                    addTransactionRow(hash, table, datestr, timestr, confstr,
+                                      btcstr, btcbalstr, fiatstr, fiatbalstr,
+                                      tintrow);
+                }
+
+                // We're working backward in time ...
+                // Dead transactions should not affect the balance ...
+                if (ct != ConfidenceType.DEAD)
+                    btcbal -= btc;
+            }
+        }
+    }
+
+	private void updateTransactions() {
+        new UpdateTransactionsTask().execute();
     }
 }

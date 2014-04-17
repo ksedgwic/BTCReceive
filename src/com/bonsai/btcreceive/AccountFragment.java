@@ -240,15 +240,17 @@ public class AccountFragment extends Fragment {
 		protected Void doInBackground(Object... params)
         {
             tableId = (Integer) params[0];
-            mLogger.info(String.format("UpdateChainTask %d starting", tableId));
+            mLogger.info(String.format("UpdateChainTask %d doInBackground starting", tableId));
             HDChain chain = (HDChain) params[1];
             addrs = chain.getAddresses();
-            mLogger.info(String.format("UpdateChainTask %d finished", tableId));
+            mLogger.info(String.format("UpdateChainTask %d doInBackground finished", tableId));
 			return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
+            mLogger.info(String.format("UpdateChainTask %d onPostExecute starting", tableId));
+
             TableLayout table =
                 (TableLayout) getActivity().findViewById(tableId);
 
@@ -275,6 +277,8 @@ public class AccountFragment extends Fragment {
                 addAddressRow(tableId, ndx++, table, path,
                               addrstr, ntrans, bal, fiat);
             }
+
+            mLogger.info(String.format("UpdateChainTask %d onPostExecute finished", tableId));
         }
     }
 

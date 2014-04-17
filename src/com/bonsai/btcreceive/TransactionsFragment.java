@@ -208,9 +208,9 @@ public class TransactionsFragment extends Fragment {
             if (walletService == null)
                 return null;
 
-            mLogger.info("UpdateTransactionsTask starting");
+            mLogger.info("UpdateTransactionsTask doInBackground starting");
             txit = walletService.getTransactions();
-            mLogger.info("UpdateTransactionsTask finished");
+            mLogger.info("UpdateTransactionsTask doInBackground finished");
 			return null;
         }
 
@@ -218,6 +218,8 @@ public class TransactionsFragment extends Fragment {
         protected void onPostExecute(Void result) {
             if (walletService == null)
                 return;
+
+            mLogger.info("UpdateTransactionsTask onPostExecute starting");
 
             TableLayout table = (TableLayout) getActivity()
                 .findViewById(R.id.transaction_table);
@@ -312,6 +314,8 @@ public class TransactionsFragment extends Fragment {
                 if (ct != ConfidenceType.DEAD)
                     btcbal -= btc;
             }
+
+            mLogger.info("UpdateTransactionsTask onPostExecute finished");
         }
     }
 

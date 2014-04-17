@@ -193,10 +193,39 @@ public class TransactionsFragment extends Fragment {
         table.addView(row);
     }
 
+    private class RowData {
+        public String hash;
+        public String datestr;
+        public String timestr;
+        public String confstr;
+        public String btcstr;
+        public String btcbalstr;
+        public String fiatstr;
+        public String fiatbalstr;
+
+        public RowData(String hash,
+                       String datestr,
+                       String timestr,
+                       String confstr,
+                       String btcstr,
+                       String btcbalstr,
+                       String fiatstr,
+                       String fiatbalstr) {
+            this.hash = hash;
+            this.datestr = datestr;
+            this.timestr = timestr;
+            this.confstr = confstr;
+            this.btcstr = btcstr;
+            this.btcbalstr = btcbalstr;
+            this.fiatstr = fiatstr;
+            this.fiatbalstr = fiatbalstr;
+        }
+    };
+
     private class UpdateTransactionsTask extends AsyncTask<Void, Void, Void> {
         private WalletService walletService;
-        private Iterable<WalletTransaction> txit;
-
+        private ArrayList<RowData> rowdata;
+        
         @Override
         protected void onPreExecute() {
             walletService =
@@ -208,38 +237,19 @@ public class TransactionsFragment extends Fragment {
             if (walletService == null)
                 return null;
 
+            rowdata = new ArrayList<RowData>();
+
             mLogger.info("UpdateTransactionsTask doInBackground starting");
-            txit = walletService.getTransactions();
-            mLogger.info("UpdateTransactionsTask doInBackground finished");
-			return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void result) {
-            if (walletService == null)
-                return;
-
-            mLogger.info("UpdateTransactionsTask onPostExecute starting");
-
-            TableLayout table = (TableLayout) getActivity()
-                .findViewById(R.id.transaction_table);
-
-            // Clear any existing table content.
-            table.removeAllViews();
-
-            addTransactionHeader(table);
 
             SimpleDateFormat dateFormater =
                 new SimpleDateFormat("yyyy-MM-dd");
             SimpleDateFormat timeFormater =
                 new SimpleDateFormat("kk:mm:ss");
 
-            // Read all the transactions and sort by date.
             Iterable<WalletTransaction> txit = walletService.getTransactions();
-
             // If we've been called before things are setup just bail.
             if (txit == null)
-                return;
+                return null;
 
             ArrayList<WalletTransaction> txs =
                 new ArrayList<WalletTransaction>();
@@ -256,7 +266,6 @@ public class TransactionsFragment extends Fragment {
                 });
 
             long btcbal = walletService.balanceForAccount();
-            int rowcounter = 0;
         
             for (WalletTransaction wtx : txs) {
                 Transaction tx = wtx.getTransaction();
@@ -298,21 +307,46 @@ public class TransactionsFragment extends Fragment {
                     default: confstr = "?"; break;
                     }
 
-                    // This is just too noisy ...
-                    // mLogger.info("tx " + hash);
-
-                    boolean tintrow = rowcounter % 2 == 0;
-                    ++rowcounter;
-
-                    addTransactionRow(hash, table, datestr, timestr, confstr,
-                                      btcstr, btcbalstr, fiatstr, fiatbalstr,
-                                      tintrow);
+                    rowdata.add(new RowData(hash, datestr, timestr, confstr,
+                                            btcstr, btcbalstr,
+                                            fiatstr, fiatbalstr));
                 }
 
                 // We're working backward in time ...
                 // Dead transactions should not affect the balance ...
                 if (ct != ConfidenceType.DEAD)
                     btcbal -= btc;
+            }
+
+            mLogger.info("UpdateTransactionsTask doInBackground finished");
+			return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            if (walletService == null)
+                return;
+
+            mLogger.info("UpdateTransactionsTask onPostExecute starting");
+
+            TableLayout table = (TableLayout) getActivity()
+                .findViewById(R.id.transaction_table);
+
+            // Clear any existing table content.
+            table.removeAllViews();
+
+            addTransactionHeader(table);
+
+            int rowcounter = 0;
+            for (RowData rd : rowdata) {
+                boolean tintrow = rowcounter % 2 == 0;
+                ++rowcounter;
+
+                addTransactionRow(rd.hash, table, rd.datestr,
+                                  rd.timestr, rd.confstr,
+                                  rd.btcstr, rd.btcbalstr,
+                                  rd.fiatstr, rd.fiatbalstr,
+                                  tintrow);
             }
 
             mLogger.info("UpdateTransactionsTask onPostExecute finished");

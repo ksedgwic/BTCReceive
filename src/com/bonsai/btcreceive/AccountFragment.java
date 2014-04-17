@@ -15,6 +15,7 @@
 
 package com.bonsai.btcreceive;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -120,28 +121,6 @@ public class AccountFragment extends Fragment {
         updateChain(R.id.change_table, mAccount.getChangeChain());
     }
 
-    /*
-    private class RowData {
-        public String mPath;
-        public String mAddr;
-        public String mNTrans;
-        public string mBTCStr;
-        public string mFiatStr;
-
-        public RowData(String path,
-                       String addr,
-                       String ntrans,
-                       String btcstr,
-                       String fiatstr) {
-            mPath = path;
-            mAddr = addr;
-            mNTrans = ntrans;
-            mBTCStr = btcstr;
-            mFiatStr = fiatstr;
-        }
-    }
-    */
-
     private void addAddressHeader(TableLayout table) {
         TableRow row =
             (TableRow) LayoutInflater.from(getActivity())
@@ -228,10 +207,30 @@ public class AccountFragment extends Fragment {
         startActivity(intent);
     }
 
+    private class RowData {
+        public String mPath;
+        public String mAddr;
+        public String mNTrans;
+        public String mBTCStr;
+        public String mFiatStr;
+
+        public RowData(String path,
+                       String addr,
+                       String ntrans,
+                       String btcstr,
+                       String fiatstr) {
+            mPath = path;
+            mAddr = addr;
+            mNTrans = ntrans;
+            mBTCStr = btcstr;
+            mFiatStr = fiatstr;
+        }
+    }
+
     private class UpdateChainTask extends AsyncTask<Object, Void, Void> {
 
         private int tableId;
-        private List<HDAddress> addrs;
+        private ArrayList<RowData> rowdata;
 
         @Override
         protected void onPreExecute() {
@@ -240,16 +239,36 @@ public class AccountFragment extends Fragment {
 		protected Void doInBackground(Object... params)
         {
             tableId = (Integer) params[0];
-            mLogger.info(String.format("UpdateChainTask %d doInBackground starting", tableId));
+            rowdata = new ArrayList<RowData>();
+            mLogger.info(String.format
+                         ("UpdateChainTask %d doInBackground starting",
+                          tableId));
             HDChain chain = (HDChain) params[1];
-            addrs = chain.getAddresses();
-            mLogger.info(String.format("UpdateChainTask %d doInBackground finished", tableId));
+            List<HDAddress> addrs = chain.getAddresses();
+            for (HDAddress addr : addrs) {
+                String path = addr.getPath();
+                String addrstr = addr.getAbbrev();
+                String ntrans = String.format("%d", addr.numTrans());
+                String bal = BaseWalletActivity.getBTCFmt()
+                    .formatCol(addr.getBalance(), 0, true);
+                String fiat = String.format
+                    ("%.02f", BaseWalletActivity.getBTCFmt()
+                     .fiatAtRate(addr.getBalance(),
+                                 ((BaseWalletActivity) getActivity())
+                                 .fiatPerBTC()));
+                rowdata.add(new RowData(path, addrstr, ntrans, bal, fiat));
+            }
+            mLogger.info(String.format
+                         ("UpdateChainTask %d doInBackground finished",
+                          tableId));
 			return null;
         }
 
         @Override
         protected void onPostExecute(Void result) {
-            mLogger.info(String.format("UpdateChainTask %d onPostExecute starting", tableId));
+            mLogger.info(String.format
+                         ("UpdateChainTask %d onPostExecute starting",
+                          tableId));
 
             TableLayout table =
                 (TableLayout) getActivity().findViewById(tableId);
@@ -263,22 +282,15 @@ public class AccountFragment extends Fragment {
 
             // Read all of the addresses.  Presume order is correct ...
             int ndx = 0;
-            for (HDAddress addr : addrs) {
-                String path = addr.getPath();
-                String addrstr = addr.getAbbrev();
-                String ntrans = String.format("%d", addr.numTrans());
-                String bal = BaseWalletActivity.getBTCFmt()
-                    .formatCol(addr.getBalance(), 0, true);
-                String fiat = String.format
-                    ("%.02f", BaseWalletActivity.getBTCFmt()
-                     .fiatAtRate(addr.getBalance(),
-                                 ((BaseWalletActivity) getActivity())
-                                 .fiatPerBTC()));
-                addAddressRow(tableId, ndx++, table, path,
-                              addrstr, ntrans, bal, fiat);
+            for (RowData rd : rowdata) {
+                addAddressRow(tableId, ndx++, table,
+                              rd.mPath, rd.mAddr, rd.mNTrans,
+                              rd.mBTCStr, rd.mFiatStr);
             }
 
-            mLogger.info(String.format("UpdateChainTask %d onPostExecute finished", tableId));
+            mLogger.info(String.format
+                         ("UpdateChainTask %d onPostExecute finished",
+                          tableId));
         }
     }
 

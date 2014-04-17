@@ -38,6 +38,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -57,33 +58,44 @@ public class ReceiveFragment extends Fragment {
     protected EditText mFiatAmountEditText;
     protected boolean mUserSetAmountFiat;
 
+    protected boolean mValueSet = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+        mLogger.info("ReceiveFragment onCreate");
 		super.onCreate(savedInstanceState);
-
         mBase = (BaseWalletActivity) getActivity();
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+        mLogger.info("ReceiveFragment onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        mLogger.info("ReceiveFragment onCreateView");
 		View view =
             inflater.inflate(R.layout.receive_fragment, container, false);
 
         // Start off presuming the user set the BTC amount.
         mUserSetAmountFiat = false;
 
+		return view;
+	}
+
+	@Override
+	public void onResume() {
+        mLogger.info("ReceiveFragment onResume");
+        super.onResume();
+
         mBTCAmountEditText =
-            (EditText) view.findViewById(R.id.receive_btc_amount);
+            (EditText) getActivity().findViewById(R.id.receive_btc_amount);
         mFiatAmountEditText =
-            (EditText) view.findViewById(R.id.receive_fiat_amount);
+            (EditText) getActivity().findViewById(R.id.receive_fiat_amount);
 
         mBTCAmountEditText.addTextChangedListener(mBTCAmountWatcher);
         mFiatAmountEditText.addTextChangedListener(mFiatAmountWatcher);
@@ -91,15 +103,13 @@ public class ReceiveFragment extends Fragment {
         mBTCAmountEditText.setOnEditorActionListener(checkForDone);
         mFiatAmountEditText.setOnEditorActionListener(checkForDone);
 
-        ImageView iv = (ImageView) view.findViewById(R.id.receive_qr_view);
-        iv.setVisibility(View.GONE);
+        mBTCAmountEditText.setOnTouchListener(touchListener);
+        mFiatAmountEditText.setOnTouchListener(touchListener);
 
-		return view;
-	}
-
-	@Override
-	public void onResume() {
-        super.onResume();
+        if (mValueSet)
+            showAddress();
+        else
+            hideAddress();
 
         BTCFmt btcfmt = mBase.getBTCFmt();
 
@@ -110,7 +120,6 @@ public class ReceiveFragment extends Fragment {
                 (TextView) getActivity().findViewById(R.id.receive_btc_label);
             tv.setText(btcfmt.unitStr());
         }
-        mLogger.info("ReceiveFragment resumed");
     }
 
     // NOTE - This code implements a pair of "cross updating" fields.
@@ -217,12 +226,24 @@ public class ReceiveFragment extends Fragment {
         }
     }
 
-    private TextView.OnEditorActionListener
-        checkForDone = new TextView.OnEditorActionListener() {
+    private View.OnTouchListener touchListener =
+        new View.OnTouchListener() {
+                public boolean onTouch(View vv, MotionEvent event) {
+                    if (mValueSet){
+                        hideAddress();	// User wants to change the amount.
+                        mValueSet = false;
+                    }
+					return false;
+                }
+            };
+
+    private TextView.OnEditorActionListener checkForDone =
+        new TextView.OnEditorActionListener() {
                 public boolean onEditorAction(TextView view,
                                               int actionId,
                                               KeyEvent event) {
                     mLogger.info("onEditorAction");
+                    mValueSet = true;
                     showAddress();
                     return false;	// so it will take down the keyboard.
                 }
@@ -237,6 +258,7 @@ public class ReceiveFragment extends Fragment {
         TextView addrtv =
             (TextView) getActivity().findViewById(R.id.receive_addr);
         addrtv.setText(addrstr);
+        addrtv.setVisibility(View.VISIBLE);
 
         String ss = mBTCAmountEditText.getText().toString();
         long bb = btcfmt.parse(ss.toString());
@@ -255,12 +277,18 @@ public class ReceiveFragment extends Fragment {
             ImageView iv =
                 (ImageView) getActivity().findViewById(R.id.receive_qr_view);
             iv.setImageBitmap(bm);
+            iv.setVisibility(View.VISIBLE);
         }
+    }
 
-        // Make the QR bitmap visible.
+    public void hideAddress() {
+        TextView addrtv =
+            (TextView) getActivity().findViewById(R.id.receive_addr);
+        addrtv.setVisibility(View.GONE);
+
         ImageView iv =
             (ImageView) getActivity().findViewById(R.id.receive_qr_view);
-        iv.setVisibility(View.VISIBLE);
+        iv.setVisibility(View.GONE);
     }
 
     private Bitmap createBitmap(String content, final int size) {

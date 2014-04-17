@@ -46,21 +46,22 @@ public class AccountFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+        mLogger.info("AccountFragment onCreate");
 		super.onCreate(savedInstanceState);
         mLBM = LocalBroadcastManager.getInstance(getActivity());
-        mLogger.info("AccountFragment onCreate");
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
-		super.onActivityCreated(savedInstanceState);
         mLogger.info("AccountFragment onActivityCreated");
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        mLogger.info("AccountFragment onCreateView");
 		View view =
             inflater.inflate(R.layout.account_fragment, container, false);
         mLogger.info("AccountFragment onCreateView");
@@ -69,6 +70,7 @@ public class AccountFragment extends Fragment {
 
 	@Override
 	public void onResume() {
+        mLogger.info("AccountFragment onResume");
         super.onResume();
 
         mLBM.registerReceiver(mWalletStateChangedReceiver,
@@ -77,18 +79,14 @@ public class AccountFragment extends Fragment {
                               new IntentFilter("rate-changed"));
 
         updateChains();
-
-        mLogger.info("AccountFragment resumed");
     }
 
     @Override
 	public void onPause() {
+        mLogger.info("AccountFragment onPause");
         super.onPause();
-
         mLBM.unregisterReceiver(mWalletStateChangedReceiver);
         mLBM.unregisterReceiver(mRateChangedReceiver);
-
-        mLogger.info("AccountFragment paused");
     }
 
     private BroadcastReceiver mWalletStateChangedReceiver =

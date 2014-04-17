@@ -54,20 +54,22 @@ public class TransactionsFragment extends Fragment {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+        mLogger.info("TransactionsFragment onCreate");
 		super.onCreate(savedInstanceState);
         mLBM = LocalBroadcastManager.getInstance(getActivity());
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
+        mLogger.info("TransactionsFragment onActivityCreated");
 		super.onActivityCreated(savedInstanceState);
-
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
+        mLogger.info("TransactionsFragment onCreateView");
 		View view =
             inflater.inflate(R.layout.transactions_fragment, container, false);
 		return view;
@@ -75,6 +77,7 @@ public class TransactionsFragment extends Fragment {
 
 	@Override
 	public void onResume() {
+        mLogger.info("TransactionsFragment onResume");
         super.onResume();
 
         mLBM.registerReceiver(mWalletStateChangedReceiver,
@@ -87,6 +90,7 @@ public class TransactionsFragment extends Fragment {
 
     @Override
 	public void onPause() {
+        mLogger.info("TransactionsFragment onPause");
         super.onPause();
 
         mLBM.unregisterReceiver(mWalletStateChangedReceiver);

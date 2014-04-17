@@ -122,6 +122,12 @@ public class ReceiveFragment extends Fragment {
         }
     }
 
+    @Override
+	public void onPause() {
+        mLogger.info("ReceiveFragment onPause");
+        super.onPause();
+    }
+
     // NOTE - This code implements a pair of "cross updating" fields.
     // If the user changes the BTC amount the fiat field is constantly
     // updated at the current mFiatPerBTC rate.  If the user changes

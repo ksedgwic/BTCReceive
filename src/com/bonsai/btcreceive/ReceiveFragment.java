@@ -229,7 +229,7 @@ public class ReceiveFragment extends Fragment {
     private View.OnTouchListener touchListener =
         new View.OnTouchListener() {
                 public boolean onTouch(View vv, MotionEvent event) {
-                    if (mValueSet){
+                    if (mValueSet) {
                         hideAddress();	// User wants to change the amount.
                         mValueSet = false;
                     }

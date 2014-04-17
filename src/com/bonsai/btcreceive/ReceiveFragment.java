@@ -223,16 +223,20 @@ public class ReceiveFragment extends Fragment {
                                               int actionId,
                                               KeyEvent event) {
                     mLogger.info("onEditorAction");
-                    showQRCode();
+                    showAddress();
                     return false;	// so it will take down the keyboard.
                 }
             };
 
-    public void showQRCode() {
+    public void showAddress() {
         BTCFmt btcfmt = mBase.getBTCFmt();
 
         Address addr = mBase.getWalletService().nextReceiveAddress();
         String addrstr = addr.toString();
+
+        TextView addrtv =
+            (TextView) getActivity().findViewById(R.id.receive_addr);
+        addrtv.setText(addrstr);
 
         String ss = mBTCAmountEditText.getText().toString();
         long bb = btcfmt.parse(ss.toString());

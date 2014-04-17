@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="right|top"
+    android:gravity="center"
     >
 
   <View
@@ -16,84 +16,93 @@
       />
 
   <LinearLayout
-      android:orientation="horizontal"
+      android:orientation="vertical"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"
-      android:layout_gravity="center"
+      android:layout_gravity="right|top"
       >
 
-    <View
-	android:layout_width="0dp"
-	android:layout_height="match_parent"
-	android:layout_weight="1"
-	/>
-
-    <EditText
-	android:id="@+id/receive_fiat_amount"
-	android:inputType="numberDecimal"
-	android:digits="0123456789.,"
-	android:singleLine="true"
-	android:layout_width="wrap_content"
+    <LinearLayout
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:textSize="40sp"
-	android:minWidth="200dp"
-	android:maxWidth="300dp"
-	android:gravity="right"
-	android:textAppearance="@android:style/TextAppearance.Large"
-	android:imeOptions="actionDone"
-	/>
+	android:layout_gravity="center"
+	>
 
-    <TextView
-	android:id="@+id/receive_fiat_label"
-	android:layout_width="wrap_content"
+      <View
+	  android:layout_width="0dp"
+	  android:layout_height="match_parent"
+	  android:layout_weight="1"
+	  />
+
+      <EditText
+	  android:id="@+id/receive_fiat_amount"
+	  android:inputType="numberDecimal"
+	  android:digits="0123456789.,"
+	  android:singleLine="true"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:textSize="40sp"
+	  android:minWidth="200dp"
+	  android:maxWidth="300dp"
+	  android:gravity="right"
+	  android:textAppearance="@android:style/TextAppearance.Large"
+	  android:imeOptions="actionDone"
+	  />
+
+      <TextView
+	  android:id="@+id/receive_fiat_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_marginRight="20dp"
+	  android:text="@string/receive_fiat_label"
+	  android:textAppearance="@android:style/TextAppearance.Large"
+	  android:textSize="40sp"
+	  android:textStyle="bold"
+	  />
+
+    </LinearLayout>
+
+    <LinearLayout
+	android:orientation="horizontal"
+	android:layout_width="fill_parent"
 	android:layout_height="wrap_content"
-	android:layout_marginRight="20dp"
-	android:text="@string/receive_fiat_label"
-	android:textAppearance="@android:style/TextAppearance.Large"
-	android:textSize="40sp"
-	android:textStyle="bold"
-	/>
+	android:layout_gravity="center"
+	>
 
-  </LinearLayout>
+      <View
+	  android:layout_width="0dp"
+	  android:layout_height="match_parent"
+	  android:layout_weight="1"
+	  />
 
-  <LinearLayout
-      android:orientation="horizontal"
-      android:layout_width="fill_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="center"
-      >
+      <EditText
+	  android:id="@+id/receive_btc_amount"
+	  android:inputType="numberDecimal"
+	  android:digits="0123456789.,"
+	  android:singleLine="true"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:textSize="20sp"
+	  android:minWidth="200dp"
+	  android:maxWidth="300dp"
+	  android:gravity="right"
+	  android:textAppearance="@android:style/TextAppearance.Large"
+	  android:imeOptions="actionDone"
+	  />
 
-    <View
-	android:layout_width="0dp"
-	android:layout_height="match_parent"
-	android:layout_weight="1"
-	/>
+      <TextView
+	  android:id="@+id/receive_btc_label"
+	  android:layout_width="wrap_content"
+	  android:layout_height="wrap_content"
+	  android:layout_marginRight="40dp"
+	  android:text="mXXX"
+	  android:textAppearance="@android:style/TextAppearance.Large"
+	  android:textSize="20sp"
+	  android:textStyle="bold"
+	  />
 
-    <EditText
-	android:id="@+id/receive_btc_amount"
-	android:inputType="numberDecimal"
-	android:digits="0123456789.,"
-	android:singleLine="true"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:textSize="20sp"
-	android:minWidth="200dp"
-	android:maxWidth="300dp"
-	android:gravity="right"
-	android:textAppearance="@android:style/TextAppearance.Large"
-	android:imeOptions="actionDone"
-	/>
-
-    <TextView
-	android:id="@+id/receive_btc_label"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_marginRight="40dp"
-	android:text="mXXX"
-	android:textAppearance="@android:style/TextAppearance.Large"
-	android:textSize="20sp"
-	android:textStyle="bold"
-	/>
+    </LinearLayout>
 
   </LinearLayout>
 
@@ -118,6 +127,20 @@
 	/>
 
   </FrameLayout>
+
+  <View
+      android:layout_width="fill_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1"
+      />
+
+  <TextView
+      android:id="@+id/receive_addr"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textAppearance="@android:style/TextAppearance.Small"
+      android:textStyle="bold"
+      />
 
   <View
       android:layout_width="match_parent"

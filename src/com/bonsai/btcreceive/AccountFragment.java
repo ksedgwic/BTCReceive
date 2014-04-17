@@ -24,6 +24,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -119,6 +120,28 @@ public class AccountFragment extends Fragment {
         updateChain(R.id.change_table, mAccount.getChangeChain());
     }
 
+    /*
+    private class RowData {
+        public String mPath;
+        public String mAddr;
+        public String mNTrans;
+        public string mBTCStr;
+        public string mFiatStr;
+
+        public RowData(String path,
+                       String addr,
+                       String ntrans,
+                       String btcstr,
+                       String fiatstr) {
+            mPath = path;
+            mAddr = addr;
+            mNTrans = ntrans;
+            mBTCStr = btcstr;
+            mFiatStr = fiatstr;
+        }
+    }
+    */
+
     private void addAddressHeader(TableLayout table) {
         TableRow row =
             (TableRow) LayoutInflater.from(getActivity())
@@ -205,31 +228,57 @@ public class AccountFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void updateChain(int tableId, HDChain chain) {
-        TableLayout table = (TableLayout) getActivity().findViewById(tableId);
+    private class UpdateChainTask extends AsyncTask<Object, Void, Void> {
 
-        // Clear any existing table content.
-        table.removeAllViews();
+        private int tableId;
+        private List<HDAddress> addrs;
 
-        mLogger.info(String.format("updateChain tableId=%d", tableId));
-
-        addAddressHeader(table);
-
-        // Read all of the addresses.  Presume order is correct ...
-        int ndx = 0;
-        List<HDAddress> addrs = chain.getAddresses();
-        for (HDAddress addr : addrs) {
-            String path = addr.getPath();
-            String addrstr = addr.getAbbrev();
-            String ntrans = String.format("%d", addr.numTrans());
-            String bal = BaseWalletActivity.getBTCFmt()
-                .formatCol(addr.getBalance(), 0, true);
-            String fiat = String.format
-                ("%.02f", BaseWalletActivity.getBTCFmt()
-                 .fiatAtRate(addr.getBalance(),
-                             ((BaseWalletActivity) getActivity()).fiatPerBTC()));
-            addAddressRow(tableId, ndx++, table, path,
-                          addrstr, ntrans, bal, fiat);
+        @Override
+        protected void onPreExecute() {
         }
+
+		protected Void doInBackground(Object... params)
+        {
+            tableId = (Integer) params[0];
+            mLogger.info(String.format("UpdateChainTask %d starting", tableId));
+            HDChain chain = (HDChain) params[1];
+            addrs = chain.getAddresses();
+            mLogger.info(String.format("UpdateChainTask %d finished", tableId));
+			return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+            TableLayout table =
+                (TableLayout) getActivity().findViewById(tableId);
+
+            // Clear any existing table content.
+            table.removeAllViews();
+
+            mLogger.info(String.format("updateChain tableId=%d", tableId));
+
+            addAddressHeader(table);
+
+            // Read all of the addresses.  Presume order is correct ...
+            int ndx = 0;
+            for (HDAddress addr : addrs) {
+                String path = addr.getPath();
+                String addrstr = addr.getAbbrev();
+                String ntrans = String.format("%d", addr.numTrans());
+                String bal = BaseWalletActivity.getBTCFmt()
+                    .formatCol(addr.getBalance(), 0, true);
+                String fiat = String.format
+                    ("%.02f", BaseWalletActivity.getBTCFmt()
+                     .fiatAtRate(addr.getBalance(),
+                                 ((BaseWalletActivity) getActivity())
+                                 .fiatPerBTC()));
+                addAddressRow(tableId, ndx++, table, path,
+                              addrstr, ntrans, bal, fiat);
+            }
+        }
+    }
+
+    private void updateChain(int tableId, HDChain chain) {
+        new UpdateChainTask().execute(tableId, chain);
     }
 }

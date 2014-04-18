@@ -21,13 +21,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import android.annotation.SuppressLint;
-import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.ActionBar.TabListener;
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,6 +37,8 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -85,7 +87,9 @@ public class MainActivity extends BaseWalletActivity {
 				public void onTabSelected(Tab tab,
 						android.app.FragmentTransaction ft) {
                     // show the given tab
-                    mPager.setCurrentItem(tab.getPosition());
+                    int position = tab.getPosition();
+                    manageKeyboard(position);
+                    mPager.setCurrentItem(position);
 				}
 
 				@Override
@@ -112,6 +116,7 @@ public class MainActivity extends BaseWalletActivity {
                     public void onPageSelected(int position) {
                         // When swiping between pages, select the
                         // corresponding tab.
+                        manageKeyboard(position);
                         getActionBar().setSelectedNavigationItem(position);
                     }
                 });
@@ -119,6 +124,21 @@ public class MainActivity extends BaseWalletActivity {
 
         mLogger.info("MainActivity created");
 	}
+
+    public void manageKeyboard(int position) {
+        mLogger.info(String.format("manageKeyboard %d", position));
+        InputMethodManager imm =
+            ((InputMethodManager) this.getSystemService
+             (Context.INPUT_METHOD_SERVICE));
+        if (position == 0) {
+            ReceiveFragment rf = (ReceiveFragment) mAdapter.getItem(0);
+            rf.maybeShowKeyboard();
+        }
+        else {
+            // Hide the keyboard.
+            imm.hideSoftInputFromWindow(mPager.getWindowToken(), 0);
+        }
+    }
 
 	public static class MyAdapter extends FragmentPagerAdapter {
 		public MyAdapter(FragmentManager fm) {

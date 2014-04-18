@@ -30,6 +30,8 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -41,6 +43,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,8 +57,8 @@ public class ReceiveFragment extends Fragment {
 
 	private final static QRCodeWriter sQRCodeWriter = new QRCodeWriter();
 
-    protected EditText mBTCAmountEditText;
-    protected EditText mFiatAmountEditText;
+    protected EditText mBTCAmountEditText = null;
+    protected EditText mFiatAmountEditText = null;
     protected boolean mUserSetAmountFiat;
 
     protected boolean mValueSet = false;
@@ -126,6 +129,31 @@ public class ReceiveFragment extends Fragment {
 	public void onPause() {
         mLogger.info("ReceiveFragment onPause");
         super.onPause();
+    }
+
+    public void maybeShowKeyboard() {
+        // Called by our parent when it would be good for us to
+        // bring up the keyboard.
+
+        Activity activity = getActivity();
+
+        if (getActivity() == null)
+            return;
+        
+        InputMethodManager imm =
+            (InputMethodManager) activity.getSystemService
+            (Context.INPUT_METHOD_SERVICE);
+
+        if (mUserSetAmountFiat && mFiatAmountEditText != null) {
+            imm.showSoftInput(mFiatAmountEditText,
+                              InputMethodManager.SHOW_IMPLICIT);
+            mFiatAmountEditText.requestFocus();
+        }
+        else if (mBTCAmountEditText != null) {
+            imm.showSoftInput(mBTCAmountEditText,
+                              InputMethodManager.SHOW_IMPLICIT);
+            mBTCAmountEditText.requestFocus();
+        }
     }
 
     // NOTE - This code implements a pair of "cross updating" fields.

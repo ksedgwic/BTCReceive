@@ -181,12 +181,13 @@ public class WalletService extends Service
                 mLogger.info(String.format("showing notification receive %d",
                                            amount));
 
-                showEventNotification(noteId,
-                                      R.drawable.ic_note_bc_green_lt,
-                                      mRes.getString(R.string.wallet_service_note_rcvd_title,
-                                                     btcfmt.unitStr()),
-                                      mRes.getString(R.string.wallet_service_note_rcvd_msg,
-                                                     btcfmt.format(amount), btcfmt.unitStr()));
+                showEventNotification
+                    (noteId,
+                     R.drawable.ic_note_bc_green_lt,
+                     mRes.getString(R.string.wallet_service_note_rcvd_title,
+                                    btcfmt.unitStr()),
+                     mRes.getString(R.string.wallet_service_note_rcvd_msg,
+                                    btcfmt.format(amount), btcfmt.unitStr()));
 
                 final TransactionConfidence txconf = tx.getConfidence();
 
@@ -210,10 +211,12 @@ public class WalletService extends Service
                                 showEventNotification
                                     (noteId,
                                      R.drawable.ic_note_bc_green,
-                                     mRes.getString(R.string.wallet_service_note_rcnf_title,
-                                                    btcfmt.unitStr()),
-                                     mRes.getString(R.string.wallet_service_note_rcnf_msg,
-                                                    btcfmt.format(amount), btcfmt.unitStr()));
+                                     mRes.getString
+                                     (R.string.wallet_service_note_rcnf_title,
+                                      btcfmt.unitStr()),
+                                     mRes.getString
+                                     (R.string.wallet_service_note_rcnf_msg,
+                                      btcfmt.format(amount), btcfmt.unitStr()));
 
                             }
                             else if (ct == ConfidenceType.DEAD) {
@@ -223,10 +226,12 @@ public class WalletService extends Service
                                 showEventNotification
                                     (noteId,
                                      R.drawable.ic_note_bc_gray,
-                                     mRes.getString(R.string.wallet_service_note_rdead_title,
-                                                    btcfmt.unitStr()),
-                                     mRes.getString(R.string.wallet_service_note_rdead_msg,
-                                                    btcfmt.format(amount), btcfmt.unitStr()));
+                                     mRes.getString
+                                     (R.string.wallet_service_note_rdead_title,
+                                      btcfmt.unitStr()),
+                                     mRes.getString
+                                     (R.string.wallet_service_note_rdead_msg,
+                                      btcfmt.format(amount), btcfmt.unitStr()));
 
                             }
                             else {
@@ -293,10 +298,12 @@ public class WalletService extends Service
                                 showEventNotification
                                     (noteId,
                                      R.drawable.ic_note_bc_red,
-                                     mRes.getString(R.string.wallet_service_note_scnf_title,
-                                                    btcfmt.unitStr()),
-                                     mRes.getString(R.string.wallet_service_note_scnf_msg,
-                                                    btcfmt.format(amount), btcfmt.unitStr()));
+                                     mRes.getString
+                                     (R.string.wallet_service_note_scnf_title,
+                                      btcfmt.unitStr()),
+                                     mRes.getString
+                                     (R.string.wallet_service_note_scnf_msg,
+                                      btcfmt.format(amount), btcfmt.unitStr()));
                             }
                             else if (ct == ConfidenceType.DEAD) {
                                 mLogger.info(String.format("send %d dead",
@@ -305,10 +312,12 @@ public class WalletService extends Service
                                 showEventNotification
                                     (noteId,
                                      R.drawable.ic_note_bc_gray,
-                                     mRes.getString(R.string.wallet_service_note_sdead_title,
-                                                    btcfmt.unitStr()),
-                                     mRes.getString(R.string.wallet_service_note_sdead_msg,
-                                                    btcfmt.format(amount), btcfmt.unitStr()));
+                                     mRes.getString
+                                     (R.string.wallet_service_note_sdead_title,
+                                      btcfmt.unitStr()),
+                                     mRes.getString
+                                     (R.string.wallet_service_note_sdead_msg,
+                                      btcfmt.format(amount), btcfmt.unitStr()));
 
                             }
                             else {
@@ -953,11 +962,13 @@ public class WalletService extends Service
                 String script = output.getString("script");
 
                 // Reverse byte order, create hash.
-                Sha256Hash hash = new Sha256Hash(WalletUtil.msgHexToBytes(tx_hash));
+                Sha256Hash hash =
+                    new Sha256Hash(WalletUtil.msgHexToBytes(tx_hash));
             
                 tx.addInput(new TransactionInput
                             (mParams, tx, new byte[]{},
-                             new TransactionOutPoint(mParams, tx_output_n, hash)));
+                             new TransactionOutPoint(mParams,
+                                                     tx_output_n, hash)));
 
                 scripts.add(new Script(Hex.decode(script)));
                     
@@ -979,9 +990,12 @@ public class WalletService extends Service
         // Add output.
         tx.addOutput(BigInteger.valueOf(amount), to);
 
-        WalletUtil.signTransactionInputs(tx, Transaction.SigHash.ALL, key, scripts);
+        WalletUtil.signTransactionInputs(tx, Transaction.SigHash.ALL,
+                                         key, scripts);
 
-        mLogger.info("tx bytes: " + new String(Hex.encode(tx.bitcoinSerialize())));
+        mLogger.info("tx bytes: " +
+                     new String(Hex.encode(tx.bitcoinSerialize())));
+
         // mKit.peerGroup().broadcastTransaction(tx);
         broadcastTransaction(mKit.peerGroup(), tx);
 
@@ -999,16 +1013,18 @@ public class WalletService extends Service
                                         new FutureCallback<Transaction>() {
                         @Override
                         public void onSuccess(Transaction transaction) {
-                            mLogger.info("Successfully broadcast key rotation tx: {}", transaction);
+                            mLogger.info("Successfully broadcast sweep tx: {}",
+                                         transaction);
                         }
 
                         @Override
                         public void onFailure(Throwable throwable) {
-                            mLogger.error("Failed to broadcast key rotation tx", throwable);
+                            mLogger.error("Failed to broadcast sweep tx",
+                                          throwable);
                         }
                     });
                 } catch (Exception e) {
-                    mLogger.error("Failed to broadcast rekey tx", e);
+                    mLogger.error("Failed to broadcast sweep tx", e);
                 }
             }
         }.start();

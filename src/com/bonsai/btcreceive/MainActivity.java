@@ -406,31 +406,6 @@ public class MainActivity extends BaseWalletActivity {
         cmpltv.setText(cmplstr);
     }
 
-
-    public void viewAccount(View view) {
-        int accountId = view.getId();
-        Intent intent = new Intent(this, ViewAccountActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putInt("accountId", accountId);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
-    public void receiveBitcoin(View view) {
-        Intent intent = new Intent(this, ReceiveBitcoinActivity.class);
-        startActivity(intent);
-    }
-
-    public void viewTransactions(View view) {
-        Intent intent = new Intent(this, ViewTransactionsActivity.class);
-        startActivity(intent);
-    }
-
-    public void sweepKey(View view) {
-        Intent intent = new Intent(this, SweepKeyActivity.class);
-        startActivity(intent);
-    }
-
     public void exitApp(View view) {
         mLogger.info("Exit selected");
         doExit();

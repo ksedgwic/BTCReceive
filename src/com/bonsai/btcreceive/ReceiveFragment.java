@@ -169,6 +169,14 @@ public class ReceiveFragment extends Fragment {
 
                 mTransitioned = true;
 
+                // Take down the address.
+                hideAddress();
+                mValueSet = false;
+                mBTCAmountEditText.setText("");
+                mFiatAmountEditText.setText("");
+                maybeShowKeyboard();
+
+                // Transition to the transactions list.
                 MainActivity main = (MainActivity) getActivity();
                 main.setPagerItem(1);
             }

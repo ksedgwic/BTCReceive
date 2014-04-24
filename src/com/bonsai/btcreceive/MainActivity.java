@@ -131,8 +131,10 @@ public class MainActivity extends BaseWalletActivity {
             ((InputMethodManager) this.getSystemService
              (Context.INPUT_METHOD_SERVICE));
         if (position == 0) {
-            ReceiveFragment rf = (ReceiveFragment) mAdapter.getItem(0);
-            rf.maybeShowKeyboard();
+            ReceiveFragment rf =
+                (ReceiveFragment) mAdapter.getActiveFragment(mPager, 0);
+            if (rf != null)
+                rf.maybeShowKeyboard();
         }
         else {
             // Hide the keyboard.
@@ -145,8 +147,11 @@ public class MainActivity extends BaseWalletActivity {
     }
 
 	public static class MyAdapter extends FragmentPagerAdapter {
+        private FragmentManager mFragmentManager;
+
 		public MyAdapter(FragmentManager fm) {
 			super(fm);
+            mFragmentManager = fm;
 		}
 
 		@Override
@@ -168,6 +173,16 @@ public class MainActivity extends BaseWalletActivity {
 				return null;
 			}
 		}
+
+        public Fragment getActiveFragment(ViewPager container, int position) {
+            String name = makeFragmentName(container.getId(), position);
+            return  mFragmentManager.findFragmentByTag(name);
+        }
+
+
+        private static String makeFragmentName(int viewId, int index) {
+            return "android:switcher:" + viewId + ":" + index;
+        }
 	}
 
 	@Override

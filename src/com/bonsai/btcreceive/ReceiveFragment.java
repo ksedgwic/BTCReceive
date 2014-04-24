@@ -47,6 +47,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -97,8 +98,8 @@ public class ReceiveFragment extends Fragment {
 		View view =
             inflater.inflate(R.layout.receive_fragment, container, false);
 
-        // Start off presuming the user set the BTC amount.
-        mUserSetAmountFiat = false;
+        // Start off presuming the user set the Fiat amount.
+        mUserSetAmountFiat = true;
 
 		return view;
 	}
@@ -186,21 +187,27 @@ public class ReceiveFragment extends Fragment {
         // Called by our parent when it would be good for us to
         // bring up the keyboard.
 
+        mLogger.info("maybeShowKeyboard starting");
+
         Activity activity = getActivity();
 
-        if (getActivity() == null)
+        if (activity == null)
             return;
-        
+
+        mLogger.info("maybeShowKeyboard still here");
+
         InputMethodManager imm =
             (InputMethodManager) activity.getSystemService
             (Context.INPUT_METHOD_SERVICE);
 
         if (mUserSetAmountFiat && mFiatAmountEditText != null) {
+            mLogger.info("maybeShowKeyboard fiat");
             imm.showSoftInput(mFiatAmountEditText,
                               InputMethodManager.SHOW_IMPLICIT);
             mFiatAmountEditText.requestFocus();
         }
         else if (mBTCAmountEditText != null) {
+            mLogger.info("maybeShowKeyboard btc");
             imm.showSoftInput(mBTCAmountEditText,
                               InputMethodManager.SHOW_IMPLICIT);
             mBTCAmountEditText.requestFocus();

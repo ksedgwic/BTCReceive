@@ -273,6 +273,10 @@ public class AccountFragment extends Fragment {
             TableLayout table =
                 (TableLayout) getActivity().findViewById(tableId);
 
+            // In case we get called before the layout has happened.
+            if (table == null)
+                return;
+
             // Clear any existing table content.
             table.removeAllViews();
 

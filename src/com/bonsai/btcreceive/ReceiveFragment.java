@@ -323,6 +323,7 @@ public class ReceiveFragment extends Fragment {
                     if (mValueSet) {
                         hideAddress();	// User wants to change the amount.
                         mValueSet = false;
+                        maybeShowKeyboard();
                     }
 					return false;
                 }

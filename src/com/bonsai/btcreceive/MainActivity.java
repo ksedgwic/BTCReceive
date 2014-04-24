@@ -140,6 +140,10 @@ public class MainActivity extends BaseWalletActivity {
         }
     }
 
+    public void setPagerItem(int position) {
+        mPager.setCurrentItem(position);
+    }
+
 	public static class MyAdapter extends FragmentPagerAdapter {
 		public MyAdapter(FragmentManager fm) {
 			super(fm);

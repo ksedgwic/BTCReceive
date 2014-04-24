@@ -31,11 +31,15 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -53,6 +57,8 @@ public class ReceiveFragment extends Fragment {
     private static Logger mLogger =
         LoggerFactory.getLogger(ReceiveFragment.class);
 
+    protected LocalBroadcastManager mLBM;
+
     private BaseWalletActivity mBase;
 
 	private final static QRCodeWriter sQRCodeWriter = new QRCodeWriter();
@@ -63,10 +69,17 @@ public class ReceiveFragment extends Fragment {
 
     protected boolean mValueSet = false;
 
+    // In order to automatically transition to the transaction view
+    // when the address receives funds we need to watch the address
+    // and remember if we've already transitioned.
+    protected HDAddress mHDAddress = null;
+    protected boolean mTransitioned = false;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
         mLogger.info("ReceiveFragment onCreate");
 		super.onCreate(savedInstanceState);
+        mLBM = LocalBroadcastManager.getInstance(getActivity());
         mBase = (BaseWalletActivity) getActivity();
 	}
 
@@ -94,6 +107,9 @@ public class ReceiveFragment extends Fragment {
 	public void onResume() {
         mLogger.info("ReceiveFragment onResume");
         super.onResume();
+
+        mLBM.registerReceiver(mWalletStateChangedReceiver,
+                              new IntentFilter("wallet-state-changed"));
 
         mBTCAmountEditText =
             (EditText) getActivity().findViewById(R.id.receive_btc_amount);
@@ -128,8 +144,35 @@ public class ReceiveFragment extends Fragment {
     @Override
 	public void onPause() {
         mLogger.info("ReceiveFragment onPause");
+        mLBM.unregisterReceiver(mWalletStateChangedReceiver);
         super.onPause();
     }
+
+    private BroadcastReceiver mWalletStateChangedReceiver =
+        new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Transition once to the transactions view if the
+                // address in question receives a transaction.
+
+                // Do we currently have an address to watch?
+                if (mHDAddress == null)
+                    return;
+
+                // Have we already fired?
+                if (mTransitioned)
+                    return;
+
+                // Have there been any transactions?
+                if (mHDAddress.numTrans() == 0)
+                    return;
+
+                mTransitioned = true;
+
+                MainActivity main = (MainActivity) getActivity();
+                main.setPagerItem(1);
+            }
+        };
 
     public void maybeShowKeyboard() {
         // Called by our parent when it would be good for us to
@@ -313,6 +356,12 @@ public class ReceiveFragment extends Fragment {
             iv.setImageBitmap(bm);
             iv.setVisibility(View.VISIBLE);
         }
+
+        // Find the HDAddress object associated with this address.
+        HDAddressDescription addrdesc =
+            mBase.getWalletService().findAddress(addr);
+        mHDAddress = addrdesc.hdAddress;
+        mTransitioned = false;
     }
 
     public void hideAddress() {
@@ -323,6 +372,10 @@ public class ReceiveFragment extends Fragment {
         ImageView iv =
             (ImageView) getActivity().findViewById(R.id.receive_qr_view);
         iv.setVisibility(View.GONE);
+
+        // Clear the HDAddress associated with this address.
+        mHDAddress = null;
+        mTransitioned = false;
     }
 
     private Bitmap createBitmap(String content, final int size) {

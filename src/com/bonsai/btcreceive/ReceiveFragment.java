@@ -189,13 +189,12 @@ public class ReceiveFragment extends Fragment {
 
         mLogger.info("maybeShowKeyboard starting");
 
-        Activity activity = getActivity();
-
-        if (activity == null)
+        // If the user has the value set already we don't want the
+        // keyboard.
+        if (mValueSet)
             return;
 
-        mLogger.info("maybeShowKeyboard still here");
-
+        Activity activity = getActivity();
         InputMethodManager imm =
             (InputMethodManager) activity.getSystemService
             (Context.INPUT_METHOD_SERVICE);

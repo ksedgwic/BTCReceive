@@ -189,28 +189,42 @@ public class ReceiveFragment extends Fragment {
 
         mLogger.info("maybeShowKeyboard starting");
 
+        // Does this ever happen?
+        if (mFiatAmountEditText == null || mBTCAmountEditText == null)
+            return;
+
         // If the user has the value set already we don't want the
         // keyboard.
         if (mValueSet)
             return;
+
+        mFiatAmountEditText.setFocusable(true);
+        mFiatAmountEditText.setFocusableInTouchMode(true);
+        mBTCAmountEditText.setFocusable(true);
+        mBTCAmountEditText.setFocusableInTouchMode(true);
 
         Activity activity = getActivity();
         InputMethodManager imm =
             (InputMethodManager) activity.getSystemService
             (Context.INPUT_METHOD_SERVICE);
 
-        if (mUserSetAmountFiat && mFiatAmountEditText != null) {
+        if (mUserSetAmountFiat) {
             mLogger.info("maybeShowKeyboard fiat");
             imm.showSoftInput(mFiatAmountEditText,
                               InputMethodManager.SHOW_IMPLICIT);
             mFiatAmountEditText.requestFocus();
         }
-        else if (mBTCAmountEditText != null) {
+        else {
             mLogger.info("maybeShowKeyboard btc");
             imm.showSoftInput(mBTCAmountEditText,
                               InputMethodManager.SHOW_IMPLICIT);
             mBTCAmountEditText.requestFocus();
         }
+    }
+
+    public void hideKeyboard() {
+        MainActivity main = (MainActivity) getActivity();
+        main.hideKeyboard();
     }
 
     // NOTE - This code implements a pair of "cross updating" fields.
@@ -336,6 +350,7 @@ public class ReceiveFragment extends Fragment {
                                               KeyEvent event) {
                     mLogger.info("onEditorAction");
                     mValueSet = true;
+                    hideKeyboard();
                     showAddress();
                     return false;	// so it will take down the keyboard.
                 }
@@ -377,6 +392,11 @@ public class ReceiveFragment extends Fragment {
             mBase.getWalletService().findAddress(addr);
         mHDAddress = addrdesc.hdAddress;
         mTransitioned = false;
+
+        mFiatAmountEditText.setFocusable(false);
+        mFiatAmountEditText.setFocusableInTouchMode(false);
+        mBTCAmountEditText.setFocusable(false);
+        mBTCAmountEditText.setFocusableInTouchMode(false);
     }
 
     public void hideAddress() {
@@ -391,6 +411,11 @@ public class ReceiveFragment extends Fragment {
         // Clear the HDAddress associated with this address.
         mHDAddress = null;
         mTransitioned = false;
+
+        mFiatAmountEditText.setFocusable(true);
+        mFiatAmountEditText.setFocusableInTouchMode(true);
+        mBTCAmountEditText.setFocusable(true);
+        mBTCAmountEditText.setFocusableInTouchMode(true);
     }
 
     private Bitmap createBitmap(String content, final int size) {

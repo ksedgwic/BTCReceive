@@ -127,9 +127,6 @@ public class MainActivity extends BaseWalletActivity {
 
     public void manageKeyboard(int position) {
         mLogger.info(String.format("manageKeyboard %d", position));
-        InputMethodManager imm =
-            ((InputMethodManager) this.getSystemService
-             (Context.INPUT_METHOD_SERVICE));
         if (position == 0) {
             ReceiveFragment rf =
                 (ReceiveFragment) mAdapter.getActiveFragment(mPager, 0);
@@ -137,9 +134,15 @@ public class MainActivity extends BaseWalletActivity {
                 rf.maybeShowKeyboard();
         }
         else {
-            // Hide the keyboard.
-            imm.hideSoftInputFromWindow(mPager.getWindowToken(), 0);
+            hideKeyboard();
         }
+    }
+
+    public void hideKeyboard() {
+        // Hide the keyboard.
+        InputMethodManager imm = ((InputMethodManager) this.getSystemService
+                                  (Context.INPUT_METHOD_SERVICE));
+        imm.hideSoftInputFromWindow(mPager.getWindowToken(), 0);
     }
 
     public void setPagerItem(int position) {

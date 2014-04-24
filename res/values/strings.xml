@@ -28,7 +28,7 @@ using BTCReceive.
     <string name="rescan_rescan">Rescan</string>
     <string name="rescan_cancel">Cancel</string>
     <string name="base_error_ok">OK</string>
-    <string name="sync_state_title">Setting Up Wallet</string>
+    <string name="sync_state_title">Setting Up BTCReceive</string>
     <string name="sync_title">Sync Progress</string>
     <string name="sync_percent_label">Percent Complete</string>
     <string name="sync_blocks_left_label">Blocks Left</string>
@@ -183,7 +183,7 @@ This transaction is really large; it will take a while to process.\n
     <string name="address_send_key_title">Send private key &#8230;</string>
     <string name="address_send_key_subject">Bitcoin Key</string>
     <string name="network_status_setup">Wallet Initializing</string>
-    <string name="network_status_wallet">Setting up Wallet</string>
+    <string name="network_status_wallet">Setting up BTCReceive</string>
     <string name="network_status_keysadd">Setting up Addresses</string>
     <string name="network_status_peering">Connecting to Peers</string>
     <string name="network_status_sync">Network Syncing, %1$d%% Done</string>

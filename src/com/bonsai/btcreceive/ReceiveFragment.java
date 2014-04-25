@@ -111,6 +111,8 @@ public class ReceiveFragment extends Fragment {
 
         mLBM.registerReceiver(mWalletStateChangedReceiver,
                               new IntentFilter("wallet-state-changed"));
+        mLBM.registerReceiver(mRateChangedReceiver,
+                              new IntentFilter("rate-changed"));
 
         mBTCAmountEditText =
             (EditText) getActivity().findViewById(R.id.receive_btc_amount);
@@ -146,6 +148,7 @@ public class ReceiveFragment extends Fragment {
 	public void onPause() {
         mLogger.info("ReceiveFragment onPause");
         mLBM.unregisterReceiver(mWalletStateChangedReceiver);
+        mLBM.unregisterReceiver(mRateChangedReceiver);
         super.onPause();
     }
 
@@ -180,6 +183,19 @@ public class ReceiveFragment extends Fragment {
                 // Transition to the transactions list.
                 MainActivity main = (MainActivity) getActivity();
                 main.setPagerItem(1);
+            }
+        };
+
+    private BroadcastReceiver mRateChangedReceiver =
+        new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                // Only update the rate while we haven't finalized a
+                // value.  Once the user has picked a value we should
+                // freeze the rate updates.
+                //
+                if (!mValueSet)
+                    updateAmountFields();
             }
         };
 
@@ -338,6 +354,7 @@ public class ReceiveFragment extends Fragment {
                         hideAddress();	// User wants to change the amount.
                         mValueSet = false;
                         maybeShowKeyboard();
+                        updateAmountFields();	// They could be stale.
                     }
 					return false;
                 }

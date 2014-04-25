@@ -39,8 +39,8 @@ Syncing with the blockchain for the first time.
 This will take a few minutes; subsequent syncs will be much faster.
     ]]></string>
     <string name="sync_details_restore"><![CDATA[
-Restoring BTCReceive by scanning the blockchain for
-pre-existing transactions.  This will take a while.
+Syncing with the blockchain for the first time.
+This will take a few minutes; subsequent syncs will be much faster.
     ]]></string>
     <string name="sync_details_startup"><![CDATA[
 Scanning the blockchain for recent transactions.

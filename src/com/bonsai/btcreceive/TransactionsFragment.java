@@ -52,6 +52,8 @@ public class TransactionsFragment extends Fragment {
     private static Logger mLogger =
         LoggerFactory.getLogger(TransactionsFragment.class);
 
+    private boolean mUpdating = false;
+
     protected LocalBroadcastManager mLBM;
 
 	@Override
@@ -335,36 +337,43 @@ public class TransactionsFragment extends Fragment {
 
         @Override
         protected void onPostExecute(Void result) {
-            if (walletService == null)
-                return;
+            try {
+                if (walletService == null)
+                    return;
 
-            mLogger.info("UpdateTransactionsTask onPostExecute starting");
+                mLogger.info("UpdateTransactionsTask onPostExecute starting");
 
-            TableLayout table = (TableLayout) getActivity()
-                .findViewById(R.id.transaction_table);
+                TableLayout table = (TableLayout) getActivity()
+                    .findViewById(R.id.transaction_table);
 
-            // Clear any existing table content.
-            table.removeAllViews();
+                // Clear any existing table content.
+                table.removeAllViews();
 
-            addTransactionHeader(table);
+                addTransactionHeader(table);
 
-            int rowcounter = 0;
-            for (RowData rd : rowdata) {
-                boolean tintrow = rowcounter % 2 == 0;
-                ++rowcounter;
+                int rowcounter = 0;
+                for (RowData rd : rowdata) {
+                    boolean tintrow = rowcounter % 2 == 0;
+                    ++rowcounter;
 
-                addTransactionRow(rd.hash, table, rd.datestr,
-                                  rd.timestr, rd.confstr,
-                                  rd.btcstr, rd.btcbalstr,
-                                  rd.fiatstr, rd.fiatbalstr,
-                                  tintrow);
+                    addTransactionRow(rd.hash, table, rd.datestr,
+                                      rd.timestr, rd.confstr,
+                                      rd.btcstr, rd.btcbalstr,
+                                      rd.fiatstr, rd.fiatbalstr,
+                                      tintrow);
+                }
             }
-
-            mLogger.info("UpdateTransactionsTask onPostExecute finished");
+            finally {
+                mUpdating = false;
+                mLogger.info("UpdateTransactionsTask onPostExecute finished");
+            }
         }
     }
 
-	private void updateTransactions() {
-        new UpdateTransactionsTask().execute();
+	private synchronized void updateTransactions() {
+        if (!mUpdating) {
+            mUpdating = true;
+            new UpdateTransactionsTask().execute();
+        }
     }
 }

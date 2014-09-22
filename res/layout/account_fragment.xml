@@ -14,10 +14,11 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textStyle="bold"
-      android:layout_gravity="left"
+      android:layout_gravity="start"
       android:textAppearance="@android:style/TextAppearance.Small"
       android:paddingTop="10dp"
-      android:paddingLeft="10dp"
+      android:paddingStart="10dp"
+      android:paddingEnd="10dp"
       />
   
   <ScrollView
@@ -44,10 +45,11 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:textStyle="bold"
-      android:layout_gravity="left"
+      android:layout_gravity="start"
       android:textAppearance="@android:style/TextAppearance.Small"
       android:paddingTop="10dp"
-      android:paddingLeft="10dp"
+      android:paddingStart="10dp"
+      android:paddingEnd="10dp"
       />
   
   <ScrollView

@@ -138,8 +138,7 @@ public class TransactionsFragment extends Fragment {
                                    String btcstr,
                                    String btcbalstr,
                                    String fiatstr,
-                                   String fiatbalstr,
-                                   boolean tintrow) {
+                                   String fiatbalstr) {
         TableRow row =
             (TableRow) LayoutInflater.from(getActivity())
             .inflate(R.layout.transaction_table_row, table, false);
@@ -190,8 +189,10 @@ public class TransactionsFragment extends Fragment {
             tv.setText(fiatstr);
         }
 
-        if (tintrow)
-            row.setBackgroundColor(Color.parseColor("#ccffcc"));
+        if (btcstr.charAt(0) == '-')
+            row.setBackgroundColor(Color.argb(64, 255, 0, 0));
+        else
+            row.setBackgroundColor(Color.argb(64, 0, 255, 0));
 
         table.addView(row);
     }
@@ -301,11 +302,15 @@ public class TransactionsFragment extends Fragment {
 
                     String btcstr = BaseWalletActivity.getBTCFmt()
                         .formatCol(btc, 0, true);
-                    String btcbalstr = BaseWalletActivity.getBTCFmt()
+                    if (btc > 0)
+                        btcstr = '+' + btcstr;
+                    String btcbalstr = '=' + BaseWalletActivity.getBTCFmt()
                         .formatCol(btcbal, 0, true);
 
                     String fiatstr = String.format("%.02f", fiat);
-                    String fiatbalstr = String.format("%.02f", fiatbal);
+                    if (fiat > 0)
+                        fiatstr = '+' + fiatstr;
+                    String fiatbalstr = String.format("=%.02f", fiatbal);
 
                     String confstr;
                     switch (ct) {
@@ -351,16 +356,11 @@ public class TransactionsFragment extends Fragment {
 
                 addTransactionHeader(table);
 
-                int rowcounter = 0;
                 for (RowData rd : rowdata) {
-                    boolean tintrow = rowcounter % 2 == 0;
-                    ++rowcounter;
-
                     addTransactionRow(rd.hash, table, rd.datestr,
                                       rd.timestr, rd.confstr,
                                       rd.btcstr, rd.btcbalstr,
-                                      rd.fiatstr, rd.fiatbalstr,
-                                      tintrow);
+                                      rd.fiatstr, rd.fiatbalstr);
                 }
             }
             finally {

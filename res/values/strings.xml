@@ -164,7 +164,7 @@ This transaction is really large; it will take a while to process.\n
 
     <string name="wallet_service_label">BTCReceive</string>
     <string name="wallet_service_started">BTCReceive Service Started</string>
-    <string name="wallet_service_info">Touch to open wallet</string>
+    <string name="wallet_service_info">Touch to open application</string>
     <string name="wallet_service_note_sent_title">%1$s Sent</string>
     <string name="wallet_service_note_sent_msg">%1$s %2$s sent</string>
     <string name="wallet_service_note_rcvd_title">%1$s Received</string>

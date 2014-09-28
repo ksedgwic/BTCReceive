@@ -718,14 +718,14 @@ public class WalletService extends Service
             mRateUpdater.stopUpdater();
             mRateUpdater = null;
         }
-
-        if (src.equals("COINDESKUSD")) {
-            mLogger.info("Switching to CoinDesk BPI USD");
-            mRateUpdater = new CoinDeskRateUpdater(getApplicationContext());
-        }
-        else if (src.equals("BITSTAMPUSD")) {
+        if (src.equals("BITSTAMPUSD")) {
             mLogger.info("Switching to BitStamp USD");
             mRateUpdater = new BitStampRateUpdater(getApplicationContext());
+        } else
+        if (src.startsWith("COINDESK")) {
+            String code = src.substring(8);
+            mLogger.info("Switching to CoinDesk BPI " + code);
+            mRateUpdater = new CoinDeskRateUpdater(getApplicationContext(), code);
         }
         else {
             mLogger.warn("Unknown fiat rate source " + src);

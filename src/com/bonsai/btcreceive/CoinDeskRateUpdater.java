@@ -46,8 +46,33 @@ public class CoinDeskRateUpdater extends Thread implements RateUpdater {
 
     private boolean mRunning = false;
 
-    public CoinDeskRateUpdater(Context context) {
+    public CoinDeskRateUpdater(Context context, String code) {
         mLBM = LocalBroadcastManager.getInstance(context);
+        if (code.equals("AUD") ||
+            code.equals("CAD") ||
+            code.equals("CHF") ||
+            code.equals("CNY") ||
+            code.equals("CZK") ||
+            code.equals("DKK") ||
+            code.equals("EUR") ||
+            code.equals("GBP") ||
+            code.equals("HUF") ||
+            code.equals("ILS") ||
+            code.equals("INR") ||
+            code.equals("JPY") ||
+            code.equals("LTL") ||
+            code.equals("MXN") ||
+            code.equals("NOK") ||
+            code.equals("NZD") ||
+            code.equals("PLN") ||
+            code.equals("RUB") ||
+            code.equals("SEK") ||
+            code.equals("SGD") ||
+            code.equals("THB") ||
+            code.equals("TRY") ||
+            code.equals("USD")) {
+            mCode = code;
+        }
     }
 
     public void startUpdater() {
@@ -86,11 +111,10 @@ public class CoinDeskRateUpdater extends Thread implements RateUpdater {
         mLogger.info("run loop finished");
     }
 
-    protected final String url = "https://api.coindesk.com/v1/bpi/currentprice/USD.json";
-
     protected double fetchLatestRate() {
         try {
             DefaultHttpClient httpClient = new DefaultHttpClient();
+            String url = "https://api.coindesk.com/v1/bpi/currentprice/" + mCode + ".json";
             HttpGet httpGet = new HttpGet(url);
  
             HttpResponse httpResponse = httpClient.execute(httpGet);
@@ -107,8 +131,8 @@ public class CoinDeskRateUpdater extends Thread implements RateUpdater {
             String json = sb.toString();
             JSONObject jObj = new JSONObject(json);
             JSONObject bpiObj = jObj.getJSONObject("bpi");
-            JSONObject usdObj = bpiObj.getJSONObject("USD");
-            double rate = usdObj.getDouble("rate");
+            JSONObject usdObj = bpiObj.getJSONObject(mCode);
+            double rate = usdObj.getDouble("rate_float");
             return rate;
 
         } catch (UnsupportedEncodingException e) {

@@ -138,9 +138,14 @@ public class ReceiveFragment extends Fragment {
         // Set these each time we resume in case we've visited the
         // Settings and they've changed.
         {
-            TextView tv =
-                (TextView) getActivity().findViewById(R.id.receive_btc_label);
-            tv.setText(btcfmt.unitStr());
+            TextView tv_btc_label =
+                    (TextView) getActivity().findViewById(R.id.receive_btc_label);
+                tv_btc_label.setText(btcfmt.unitStr());
+            if (mBase.getWalletService() != null) {
+                TextView tv_fiat_label =
+                        (TextView) getActivity().findViewById(R.id.receive_fiat_label);
+                    tv_fiat_label.setText(mBase.getWalletService().getCode());
+            }
         }
     }
 

@@ -138,13 +138,57 @@ This transaction is really large; it will take a while to process.\n
     <string name="pref_fiat_rate_sources_default">COINDESKUSD</string>
 
     <string-array name="pref_fiat_rate_sources_entries">
-      <item>CoinDesk BPI USD</item>
       <item>BitStamp USD</item>
+      <item>CoinDesk BPI AUD</item>
+      <item>CoinDesk BPI CAD</item>
+      <item>CoinDesk BPI CHF</item>
+      <item>CoinDesk BPI CNY</item>
+      <item>CoinDesk BPI CZK</item>
+      <item>CoinDesk BPI DKK</item>
+      <item>CoinDesk BPI EUR</item>
+      <item>CoinDesk BPI GBP</item>
+      <item>CoinDesk BPI HUF</item>
+      <item>CoinDesk BPI ILS</item>
+      <item>CoinDesk BPI INR</item>
+      <item>CoinDesk BPI JPY</item>
+      <item>CoinDesk BPI LTL</item>
+      <item>CoinDesk BPI MXN</item>
+      <item>CoinDesk BPI NOK</item>
+      <item>CoinDesk BPI NZD</item>
+      <item>CoinDesk BPI PLN</item>
+      <item>CoinDesk BPI RUB</item>
+      <item>CoinDesk BPI SEK</item>
+      <item>CoinDesk BPI SGD</item>
+      <item>CoinDesk BPI THB</item>
+      <item>CoinDesk BPI TRY</item>
+      <item>CoinDesk BPI USD</item>
     </string-array>
 
     <string-array name="pref_fiat_rate_sources_values">
-      <item>COINDESKUSD</item>
       <item>BITSTAMPUSD</item>
+      <item>COINDESKAUD</item>
+      <item>COINDESKCAD</item>
+      <item>COINDESKCHF</item>
+      <item>COINDESKCNY</item>
+      <item>COINDESKCZK</item>
+      <item>COINDESKDKK</item>
+      <item>COINDESKEUR</item>
+      <item>COINDESKGBP</item>
+      <item>COINDESKHUF</item>
+      <item>COINDESKILS</item>
+      <item>COINDESKINR</item>
+      <item>COINDESKJPY</item>
+      <item>COINDESKLTL</item>
+      <item>COINDESKMXN</item>
+      <item>COINDESKNOK</item>
+      <item>COINDESKNZD</item>
+      <item>COINDESKPLN</item>
+      <item>COINDESKRUB</item>
+      <item>COINDESKSEK</item>
+      <item>COINDESKSGD</item>
+      <item>COINDESKTHB</item>
+      <item>COINDESKTRY</item>
+      <item>COINDESKUSD</item>
     </string-array>
 
     <string name="pref_rescan_blockchain">Rescan Blockchain &#8230;</string>

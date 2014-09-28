@@ -130,6 +130,14 @@ public class AccountFragment extends Fragment {
         TextView tv = (TextView) row.findViewById(R.id.header_btc);
         tv.setText(BaseWalletActivity.getBTCFmt().unitStr());
 
+        WalletService walletService =
+                ((BaseWalletActivity) getActivity()).getWalletService();
+
+        if (walletService != null) {
+            TextView tv_fiat = (TextView) row.findViewById(R.id.header_fiat);
+            tv_fiat.setText(walletService.getCode());
+        }
+
         table.addView(row);
     }
 

@@ -25,6 +25,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -129,6 +130,14 @@ public class AccountFragment extends Fragment {
         TextView tv = (TextView) row.findViewById(R.id.header_btc);
         tv.setText(BaseWalletActivity.getBTCFmt().unitStr());
 
+        WalletService walletService =
+                ((BaseWalletActivity) getActivity()).getWalletService();
+
+        if (walletService != null) {
+            TextView tv_fiat = (TextView) row.findViewById(R.id.header_fiat);
+            tv_fiat.setText(walletService.getCode());
+        }
+
         table.addView(row);
     }
 
@@ -180,6 +189,11 @@ public class AccountFragment extends Fragment {
             TextView tv = (TextView) row.findViewById(R.id.row_fiat);
             tv.setText(fiatstr);
         }
+
+        if (!btcstr.trim().equals("0"))
+            row.setBackgroundColor(Color.argb(64, 0, 255, 0));
+        else if (!ntrans.trim().equals("0"))
+            row.setBackgroundColor(Color.argb(32, 0, 0, 0));
 
         table.addView(row);
     }
